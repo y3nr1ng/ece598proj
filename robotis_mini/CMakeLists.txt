@@ -20,16 +20,40 @@ include_directories(
   include
 )
 
+# DynamixelSDK
+file(GLOB_RECURSE dynamixel_sdk_files
+  "${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/src/dynamixel_sdk/*.cpp"
+)
+add_library(dynamixel_sdk
+  ${dynamixel_sdk_files}
+)
+target_include_directories(dynamixel_sdk
+  PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/include/dynamixel_sdk
+)
+target_compile_options(dynamixel_sdk
+  PRIVATE
+    # Ignore warnings generated from SDK
+    $<$<CXX_COMPILER_ID:GNU>:-w>
+    $<$<CXX_COMPILER_ID:Clang>:-w>
+)
+
 # Hardware interface
 add_library(hardware
   src/hardware.cpp
+)
+target_include_directories(hardware
+  PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/include
 )
 target_link_libraries(hardware
   rclcpp::rclcpp
   hardware_interface::hardware_interface
   controller_interface::controller_interface
+  dynamixel_sdk
 )
 
+# Kinematics
 add_executable(kinematics
   src/nodes/kinematics.cpp
 )

@@ -52,6 +52,9 @@ target_link_libraries(hardware
   controller_interface::controller_interface
   dynamixel_sdk
 )
+pluginlib_export_plugin_description_file(hardware
+  plugin_description/hardware.xml
+)
 
 # Kinematics
 add_executable(kinematics

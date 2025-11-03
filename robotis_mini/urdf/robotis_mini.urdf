@@ -2,10 +2,150 @@
 <!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com)
      Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
-<robot
-  name="mini">
-  <link
-    name="Body">
+<robot name="mini">
+  <ros2_control name="robotis_mini_system" type="system">
+    <hardware>
+      <plugin>robotis_mini/hardware</plugin>
+
+      <param name="port">/dev/ttyUSB0</param>
+      <param name="baud_rate">1000000</param>
+      <param name="protocol_version">2.0</param>
+
+      <!-- <param name="read_rate">100</param> -->
+      <!-- <param name="write_rate">100</param> -->
+    </hardware>
+
+    <!-- Declare each ACTUATED joint with interfaces + per-joint params.
+        NOTE: Joint_09 is fixed in your URDF, so it’s omitted here. -->
+
+    <!-- Arms -->
+    <joint name="Joint_01">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">1</param>
+      <!-- <param name="gear_ratio">1.0</param>  (optional) -->
+    </joint>
+
+    <joint name="Joint_02">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">2</param>
+    </joint>
+
+    <joint name="Joint_03">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">3</param>
+    </joint>
+
+    <joint name="Joint_04">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">4</param>
+    </joint>
+
+    <joint name="Joint_05">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">5</param>
+    </joint>
+
+    <joint name="Joint_06">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">6</param>
+    </joint>
+
+    <!-- Legs -->
+    <joint name="Joint_07">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">7</param>
+    </joint>
+
+    <joint name="Joint_08">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">8</param>
+    </joint>
+
+    <!-- Joint_09 is fixed, no actuator declaration -->
+
+    <joint name="Joint_10">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">10</param>
+    </joint>
+
+    <joint name="Joint_11">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">11</param>
+    </joint>
+
+    <joint name="Joint_12">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">12</param>
+    </joint>
+
+    <joint name="Joint_13">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">13</param>
+    </joint>
+
+    <joint name="Joint_14">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">14</param>
+    </joint>
+
+    <joint name="Joint_15">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">15</param>
+    </joint>
+
+    <joint name="Joint_16">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">16</param>
+    </joint>
+
+  </ros2_control>
+
+  <link name="Body">
     <inertial>
       <origin
         xyz="-0.00919575896316816 -0.00047172605195048 -0.0160791655999242"

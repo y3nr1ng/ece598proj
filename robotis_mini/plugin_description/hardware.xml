@@ -1,0 +1,9 @@
+<library path="libhardware">
+  <class name="robotis_mini/hardware"
+         type="robotis_mini::hardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Hardware interface plugin for the Robotis MINI system.
+    </description>
+  </class>
+</library>

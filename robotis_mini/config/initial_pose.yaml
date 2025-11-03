@@ -1,0 +1,21 @@
+restore_initial_pose:
+  ros__parameters:
+    controller_ns: "/joint_trajectory_controller"
+    joint_names:
+      - Joint_01
+      - Joint_02
+      - Joint_03
+      - Joint_04
+      - Joint_05
+      - Joint_06
+      - Joint_07
+      - Joint_08
+      - Joint_09
+      - Joint_10
+      - Joint_11
+      - Joint_12
+      - Joint_13
+      - Joint_14
+      - Joint_15
+      - Joint_16
+    initial_positions: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]

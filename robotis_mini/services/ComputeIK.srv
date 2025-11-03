@@ -1,0 +1,21 @@
+# Request
+float32 rh_x
+float32 rh_y
+float32 rh_z
+float32 lh_x
+float32 lh_y
+float32 lh_z
+float32 rf_x
+float32 rf_y
+float32 rf_z
+float32 lf_x
+float32 lf_y
+float32 lf_z
+float32 base_roll    # radians, for feet IK
+float32 base_pitch   # radians, for feet IK
+bool    use_arms
+bool    use_legs
+---
+# Response
+sensor_msgs/JointState joints
+string message

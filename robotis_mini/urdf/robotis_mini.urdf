@@ -82,7 +82,13 @@
       <param name="dxl_id">8</param>
     </joint>
 
-    <!-- Joint_09 is fixed, no actuator declaration -->
+    <joint name="Joint_09">
+      <command_interface name="position"/>
+      <state_interface   name="position"/>
+      <state_interface   name="velocity"/>
+      <state_interface   name="effort"/>
+      <param name="dxl_id">9</param>
+    </joint>
 
     <joint name="Joint_10">
       <command_interface name="position"/>

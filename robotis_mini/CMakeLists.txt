@@ -9,7 +9,50 @@ endif()
 find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(ros2_control REQUIRED)
+find_package(hardware_interface REQUIRED)
+find_package(controller_interface REQUIRED)
+
+include_directories(
+  include
+)
+
+# Hardware interface
+add_library(hardware
+  src/hardware.cpp
+)
+ament_target_dependencies(hardware
+  rclcpp
+  ros2_control
+  hardware_interface
+  controller_interface
+)
+
+add_executable(kinematics
+  src/nodes/kinematics.cpp
+)
+ament_target_dependencies(kinematics
+  rclcpp
+  sensor_msgs
+  geometry_msgs
+)
+
+install(
+  TARGETS
+    hardware
+    kinematics
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+install(
+  DIRECTORY launch urdf config
+  DESTINATION share/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

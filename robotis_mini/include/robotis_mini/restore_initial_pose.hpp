@@ -10,6 +10,8 @@
 #include "trajectory_msgs/msg/joint_trajectory_point.hpp"
 #include "control_msgs/action/follow_joint_trajectory.hpp"
 
+#include "robotis_mini/action/restore_initial_pose.hpp"
+
 namespace robotis_mini {
 
 class restore_initial_pose : public rclcpp::Node {

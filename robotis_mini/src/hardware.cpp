@@ -4,15 +4,15 @@
 namespace robotis_mini
 {
 
-hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInfo & hardware_info)
+hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareComponentInterfaceParams & params)
 {
-    if (hardware_interface::SystemInterface::on_init(hardware_info) != CallbackReturn::SUCCESS) {
+    if (hardware_interface::SystemInterface::on_init(params) != CallbackReturn::SUCCESS) {
         return CallbackReturn::ERROR;
     }
 
-    info_ = hardware_info;
+    const auto & info = params.hardware_info;
 
-    if (info_.joints.empty()) {
+    if (info.joints.empty()) {
         RCLCPP_FATAL(
             this->get_logger(),
             "No joints specified in hardware info."
@@ -20,20 +20,19 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInf
         return CallbackReturn::ERROR;
     }
 
-    // Read parameters.
-    auto & hw_params = info_.hardware_parameters;
-    std::string port = hw_params.at("port");
-    int baud_rate = std::stoi(hw_params.at("baud_rate"));
-    double protocol_version = std::stod(hw_params.at("protocol_version"));
+    auto & hw_params = info.hardware_parameters;
+    port_name_        = hw_params.at("port");
+    baud_rate_        = std::stoi(hw_params.at("baud_rate"));
+    protocol_version_ = std::stod(hw_params.at("protocol_version"));
 
     // Store joint names and allocate vectors.
-    size_t n = info_.joints.size();
+    size_t n = info.joints.size();
     joint_names_.resize(n);
     joint_ids_.resize(n);
     gear_ratios_.resize(n);
 
     for (size_t i = 0; i < n; ++i) {
-        const auto & joint_info = info_.joints[i];
+        const auto & joint_info = info.joints[i];
         joint_names_[i] = joint_info.name;
 
         auto & params = joint_info.parameters;
@@ -94,7 +93,7 @@ hardware::CallbackReturn
 hardware::on_cleanup(const rclcpp_lifecycle::State & /*prev_state*/)
 {
     if (port_handler_) {
-        ort_handler_->closePort();
+        port_handler_->closePort();
     }
 
     port_handler_.reset();
@@ -172,6 +171,9 @@ hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
         return hardware_interface::return_type::ERROR;
     }
 
+    (void)time;
+    (void)period;
+
     for (size_t i = 0; i < joint_names_.size(); ++i) {
         uint8_t id = joint_ids_[i];
         uint32_t dxl_present_pos = 0;
@@ -200,6 +202,9 @@ hardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
     if (!comms_ready_) {
         return hardware_interface::return_type::ERROR;
     }
+
+    (void)time;
+    (void)period;
 
     for (size_t i = 0; i < joint_names_.size(); ++i) {
         uint8_t id = joint_ids_[i];

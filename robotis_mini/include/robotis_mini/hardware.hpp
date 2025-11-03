@@ -26,7 +26,7 @@ public:
     hardware() = default;
     ~hardware() override = default;
 
-    CallbackReturn on_init(const hardware_interface::HardwareInfo & hardware_info) override;
+    CallbackReturn on_init(const hardware_interface::HardwareComponentInterfaceParams & params) override;
     CallbackReturn on_configure(const rclcpp_lifecycle::State & prev_state) override;
     CallbackReturn on_cleanup  (const rclcpp_lifecycle::State & prev_state) override;
 
@@ -40,8 +40,6 @@ public:
                                         const rclcpp::Duration & period) override;
 
 private:
-    hardware_interface::HardwareInfo info_;
-
     // Mapped joints
     std::vector<std::string> joint_names_;
     std::vector<uint8_t>     joint_ids_;

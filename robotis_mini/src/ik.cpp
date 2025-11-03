@@ -1,0 +1,172 @@
+#include <algorithm>
+#include <cmath>
+#include <cstdint>
+#include <vector>
+
+#include "robotis_mini/ik.hpp"
+
+namespace robotis_mini::ik {
+
+// ---------- constants (geometry & unit conversion) ----------
+inline constexpr float kPi = 3.14159265358979323846f;
+
+// joint angle <-> Dynamixel ticks (XL-320 family: 1024 ticks, 512 center)
+// keep number here; all conversions go through these helpers
+inline constexpr float kTicksPerRad = 195.3786f;
+inline constexpr int   kTickCenter  = 512;
+inline constexpr int   kTickMin     = 0;
+inline constexpr int   kTickMax     = 1023;
+
+// arm link lengths (mm)
+inline constexpr float kLSh = 39.0f;  // origin to arm roll joint
+inline constexpr float kLA1 = 18.0f;  // shoulder bracket horizontal
+inline constexpr float kLA2 = 12.0f;  // shoulder bracket vertical
+inline constexpr float kLA3 = 45.0f;  // upper arm
+inline constexpr float kLA4 = 72.0f;  // lower arm
+
+// leg link lengths (mm)
+inline constexpr float kLBy = 24.0f;  // origin to pelvis vertical
+inline constexpr float kLBz = 72.0f;  // pelvis horizontal
+inline constexpr float kLBx = 15.0f;  // shoulder axis to leg center (sagittal)
+inline constexpr float kLL1 = 6.0f;   // pelvis roll to pitch offset
+inline constexpr float kLL2 = 45.0f;  // thigh
+inline constexpr float kLL3 = 42.0f;  // shank
+inline constexpr float kLL4 = 31.0f;  // ankle
+inline constexpr float kLFoot = 9.0f; // foot horizontal
+
+// elbow reach guard (mm) — matches prior 117 clamp
+inline constexpr float kArmReachMax = 117.0f;
+
+// ---------- conversion helpers ----------
+inline int rad_to_ticks(float rad) {
+    const int t = static_cast<int>(kTickCenter + rad * kTicksPerRad);
+    return std::clamp(t, kTickMin, kTickMax);
+}
+inline float ticks_to_rad(uint16_t ticks) {
+    return (static_cast<int>(ticks) - kTickCenter) / kTicksPerRad;
+}
+
+// ---------- IK: Right Hand ----------
+void IK_RH(float x, float y, float z, std::vector<uint16_t> &pos)
+{
+  // translate user coords to shoulder frame
+  const float x0 = x;
+  const float y0 = y + (kLSh + kLA1);
+  const float z0 = z;
+
+  const float th1 = -std::atan(x0 / (z0 + 1.0e-5f)); // shoulder roll
+
+  // distances in the rotated shoulder plane
+  const float xr = x0 - kLA2 * std::sin(th1);
+  const float zr = z0 + kLA2 * std::cos(th1);
+
+  const float R1 = std::sqrt(xr * xr + y0 * y0 + zr * zr);
+  const float R1c = std::clamp(R1, 0.0f, kArmReachMax);  // enforce reachable envelope
+
+  const float alpha = std::acos((kLA3*kLA3 + kLA4*kLA4 - R1c*R1c) / (2.0f*kLA3*kLA4));
+  const float th5 = -kPi + alpha;                    // elbow
+
+  const float R2 = std::hypot(xr, zr);
+  float th3;                                         // shoulder pitch
+  if (z > 0) {
+        th3 = kPi*0.5f + (std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c)));
+  } else {
+        th3 = -kPi*0.5f + (-std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c)));
+  }
+
+  pos[0] = static_cast<uint16_t>(rad_to_ticks(th1)); // Joint_01
+  pos[2] = static_cast<uint16_t>(rad_to_ticks(th3)); // Joint_03
+  pos[4] = static_cast<uint16_t>(rad_to_ticks(th5)); // Joint_05
+}
+
+// ---------- IK: Left Hand ----------
+void IK_LH(float x, float y, float z, std::vector<uint16_t> &pos)
+{
+  const float x0 = x;
+  const float y0 = y - (kLSh + kLA1);
+  const float z0 = z;
+
+  const float th2 =  std::atan(x0 / (z0 + 1.0e-5f)); // shoulder roll
+
+  const float xr = x0 - kLA2 * std::sin(th2);
+  const float zr = z0 + kLA2 * std::cos(th2);
+
+  const float R1 = std::sqrt(xr * xr + y0 * y0 + zr * zr);
+  const float R1c = std::clamp(R1, 0.0f, kArmReachMax);
+
+  const float alpha = std::acos((kLA3*kLA3 + kLA4*kLA4 - R1c*R1c) / (2.0f*kLA3*kLA4));
+  const float th6 =  kPi - alpha;                    // elbow
+
+  const float R2 = std::hypot(xr, zr);
+  float th4;                                         // shoulder pitch
+  if (z0 > 0) {
+        th4 = -(std::atan2(R2, y0) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c)));
+  } else {
+        th4 = -(-kPi*0.5f + (std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c))));
+  }
+
+  pos[1] = static_cast<uint16_t>(rad_to_ticks(th2)); // Joint_02
+  pos[3] = static_cast<uint16_t>(rad_to_ticks(th4)); // Joint_04
+  pos[5] = static_cast<uint16_t>(rad_to_ticks(th6)); // Joint_06
+}
+
+// ---------- IK: Right Foot (needs base roll/pitch) ----------
+void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<uint16_t> &pos)
+{
+  // foot position in hip frame (from original derivation)
+  const float px = -kLBz - z - kLFoot*std::sin(th_r) - kLL4*std::cos(th_p)*std::cos(th_r);
+  const float py =  kLBy + y + kLFoot*std::cos(th_r) - kLL4*std::cos(th_p)*std::sin(th_r);
+  const float pz =  x - kLBx + kLL4*std::sin(th_p);
+
+  const float th7 = std::atan2(py, px);                          // hip yaw/roll combined as in legacy
+  const float dx = px - kLL1*std::cos(th7);
+  const float dy = py - kLL1*std::sin(th7);
+  const float R1 = std::sqrt(dx*dx + dy*dy + pz*pz);
+  const float alpha = std::acos((kLL2*kLL2 + kLL3*kLL3 - R1*R1) / (2.0f*kLL2*kLL3));
+
+  const float th11 = kPi - alpha;                                // knee
+  const float R2 = std::hypot(dx, dy);
+
+  const float th9 = -(std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
+  const float th13 = -std::asin(std::cos(th9 + th11)*std::cos(th_r)*std::cos(th7)*std::sin(th_p)
+                                - std::sin(th9 + th11)*std::cos(th_p)
+                                + std::cos(th9 + th11)*std::sin(th_p)*std::sin(th_r)*std::sin(th7));
+  const float th15 = -std::asin(std::sin(th_r - th7) * std::cos(th_p));
+
+  pos[6]  = static_cast<uint16_t>(rad_to_ticks(th7));   // Joint_07
+  pos[8]  = static_cast<uint16_t>(rad_to_ticks(th9));   // Joint_09
+  pos[10] = static_cast<uint16_t>(rad_to_ticks(th11));  // Joint_11
+  pos[12] = static_cast<uint16_t>(rad_to_ticks(th13));  // Joint_13
+  pos[14] = static_cast<uint16_t>(rad_to_ticks(th15));  // Joint_15
+}
+
+// ---------- IK: Left Foot (needs base roll/pitch) ----------
+void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<uint16_t> &pos)
+{
+  const float px =  kLFoot*std::sin(th_r) - z - kLBz - kLL4*std::cos(th_p)*std::cos(th_r);
+  const float py =  y - kLBy - kLFoot*std::cos(th_r) - kLL4*std::cos(th_p)*std::sin(th_r);
+  const float pz =  x - kLBx + kLL4*std::sin(th_p);
+
+  const float th8 = std::atan2(py, px);
+  const float dx = px - kLL1*std::cos(th8);
+  const float dy = py - kLL1*std::sin(th8);
+  const float R1 = std::sqrt(dx*dx + dy*dy + pz*pz);
+  const float alpha = std::acos((kLL2*kLL2 + kLL3*kLL3 - R1*R1) / (2.0f*kLL2*kLL3));
+
+  const float th12 = -kPi + alpha;                               // knee
+  const float R2 = std::hypot(dx, dy);
+
+  const float th10 =  (std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
+  const float th14 = -std::acos(std::cos(th10 + th12)*std::cos(th_p)
+                                - std::sin(th10 + th12)*std::cos(th_r)*std::cos(th8)*std::sin(th_p)
+                                - std::sin(th10 + th12)*std::sin(th_p)*std::sin(th_r)*std::sin(th8));
+  const float th16 = -std::asin(std::sin(th_r - th8) * std::cos(th_p));
+
+  pos[7]  = static_cast<uint16_t>(rad_to_ticks(th8));   // Joint_08
+  pos[9]  = static_cast<uint16_t>(rad_to_ticks(th10));  // Joint_10
+  pos[11] = static_cast<uint16_t>(rad_to_ticks(th12));  // Joint_12
+  pos[13] = static_cast<uint16_t>(rad_to_ticks(th14));  // Joint_14
+  pos[15] = static_cast<uint16_t>(rad_to_ticks(th16));  // Joint_16
+}
+
+}

@@ -18,10 +18,10 @@ find_package(unique_identifier_msgs REQUIRED)
 find_package(action_msgs REQUIRED)
 
 set(action_files
-  actions/RestoreInitialPose.action
+  action/RestoreInitialPose.action
 )
 set(srv_files
-  services/ComputeIK.srv
+  srv/ComputeIK.srv
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -104,6 +104,7 @@ pluginlib_export_plugin_description_file(hardware_interface
 # ----------------------------
 add_executable(kinematics
   src/nodes/kinematics.cpp
+  src/ik.cpp
 )
 
 target_include_directories(kinematics
@@ -128,7 +129,7 @@ add_executable(restore_initial_pose
 
 target_include_directories(restore_initial_pose
   PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/servers
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_link_libraries(restore_initial_pose

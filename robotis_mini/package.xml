@@ -7,18 +7,35 @@
   <maintainer email="ytliu2@illinois.edu">Yen-Ting Liu</maintainer>
   <license>Apache-2.0</license>
 
+
+  <!-- Core runtime deps -->
   <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
   <depend>ros2_control</depend>
   <depend>hardware_interface</depend>
   <depend>controller_interface</depend>
+  <depend>pluginlib</depend>
+
+  <!-- Messages used by nodes and interfaces -->
+  <depend>std_msgs</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
-  <depend>std_msgs</depend>
+  <depend>control_msgs</depend>
+  <depend>trajectory_msgs</depend>
+  <depend>builtin_interfaces</depend>
+  <depend>unique_identifier_msgs</depend>
+  <depend>action_msgs</depend>
 
+  <!-- Build tools for CMake + interfaces -->
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+
+  <!-- rosidl runtime for generated types -->
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
 
   <export>
     <build_type>ament_cmake</build_type>

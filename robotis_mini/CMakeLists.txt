@@ -143,16 +143,18 @@ target_link_libraries(restore_initial_pose
 # ----------------------------
 # Install
 # ----------------------------
-install(TARGETS
-  hardware
-  kinematics
-  restore_initial_pose
+install(
+  TARGETS
+    hardware
+    kinematics
+    restore_initial_pose
   RUNTIME DESTINATION lib/${PROJECT_NAME}
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
 
-install(DIRECTORY urdf
+install(
+  DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

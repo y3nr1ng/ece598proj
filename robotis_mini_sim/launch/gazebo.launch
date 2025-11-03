@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node
+from ament_index_python.packages import get_package_share_directory
+from pathlib import Path
+
+def _read_urdf(context):
+    pkg = get_package_share_directory('robotis_mini')
+    urdf_path = PathJoinSubstitution([pkg, 'urdf', 'robotis_mini.urdf']).perform(context)
+    return Path(urdf_path).read_text()
+
+def generate_launch_description():
+    use_sim_time = DeclareLaunchArgument('use_sim_time', default_value='true')
+    world = DeclareLaunchArgument('world', default_value='empty')  # ros_gz_sim world
+
+    # Read URDF once and reuse for rsp + controller_manager
+    def build_nodes(context, *args, **kwargs):
+        robot_description_xml = _read_urdf(context)
+        pkg = get_package_share_directory('robotis_mini')
+        controllers_yaml = PathJoinSubstitution([pkg, 'config', 'controllers.yaml']).perform(context)
+
+        # 1) Gazebo Sim (server + GUI)
+        gz = Node(
+            package='ros_gz_sim',
+            executable='gz_sim',
+            arguments=['-r', LaunchConfiguration('world')],  # e.g., 'empty'
+            output='screen'
+        )  # ros_gz_sim docs show gz_sim.launch.py / gz_sim entrypoints. :contentReference[oaicite:0]{index=0}
+
+        # 2) Robot State Publisher
+        rsp = Node(
+            package='robot_state_publisher',
+            executable='robot_state_publisher',
+            name='robot_state_publisher',
+            parameters=[{
+                'use_sim_time': LaunchConfiguration('use_sim_time'),
+                'robot_description': robot_description_xml
+            }],
+            output='screen'
+        )  # robot_state_publisher reads URDF from robot_description param. :contentReference[oaicite:1]{index=1}
+
+        # 3) Spawn into Gazebo from robot_description (no file duplication)
+        spawn = Node(
+            package='ros_gz_sim',
+            executable='create',
+            arguments=['-name', 'robotis_mini',
+                       '-topic', 'robot_description',  # spawn from param/topic
+                       '-allow_renaming', 'true'],
+            output='screen'
+        )  # ‘create’ can spawn from a ROS param/topic. :contentReference[oaicite:2]{index=2}
+
+        # 4) controller_manager + controllers
+        cm = Node(
+            package='controller_manager',
+            executable='ros2_control_node',
+            parameters=[{'robot_description': robot_description_xml}, controllers_yaml],
+            output='screen'
+        )  # standard ros2_control pattern. :contentReference[oaicite:3]{index=3}
+
+        jsb = Node(package='controller_manager', executable='spawner',
+                   arguments=['joint_state_broadcaster'], output='screen')
+        jtc = Node(package='controller_manager', executable='spawner',
+                   arguments=['joint_trajectory_controller'], output='screen')  # JTC userdoc. :contentReference[oaicite:4]{index=4}
+
+        return [gz, rsp, spawn, cm, jsb, jtc]
+
+    return LaunchDescription([
+        use_sim_time, world,
+        OpaqueFunction(function=build_nodes)
+    ])
+

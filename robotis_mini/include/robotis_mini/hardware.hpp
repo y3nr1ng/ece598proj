@@ -2,12 +2,17 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "rclcpp/rclcpp.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "hardware_interface/system_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "hardware_interface/hardware_info.hpp"
+
+
+#include "dynamixel_sdk/port_handler.h"
+#include "dynamixel_sdk/packet_handler.h"
 
 namespace robotis_mini
 {
@@ -33,8 +38,12 @@ public:
                                         const rclcpp::Duration & period) override;
 
 private:
-    // Joint names
+    hardware_interface::HardwareInfo info_;
+
+    // Mapped joints
     std::vector<std::string> joint_names_;
+    std::vector<uint8_t>     joint_ids_;
+    std::vector<double>      gear_ratios_;
 
     // State vectors
     std::vector<double> joint_position_;
@@ -45,6 +54,17 @@ private:
     std::vector<double> joint_position_command_;
     std::vector<double> joint_velocity_command_;
     std::vector<double> joint_effort_command_;
+
+    // Dynamixel SDK
+    std::shared_ptr<dynamixel::PortHandler>   port_handler_;
+    std::shared_ptr<dynamixel::PacketHandler> packet_handler_;
+
+    std::string port_name_;
+    int         baud_rate_{0};
+    double      protocol_version_{0.0};
+
+    uint32_t convert_rad_to_dxl(double rad, double gear_ratio) const;
+    double   convert_dxl_to_rad(uint32_t dxl_val, double gear_ratio) const;
 };
 
 }

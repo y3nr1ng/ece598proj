@@ -6,21 +6,42 @@ namespace robotis_mini
 
 hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInfo & hardware_info)
 {
-    if (hardware_info.joints.empty()) {
+    if (hardware_interface::SystemInterface::on_init(hardware_info) != CallbackReturn::SUCCESS) {
+        return CallbackReturn::ERROR;
+    }
+
+    info_ = hardware_info;
+
+    if (info_.joints.empty()) {
         RCLCPP_FATAL(
             this->get_logger(),
-            "No joints specified in hardware info"
+            "No joints specified in hardware info."
         );
         return CallbackReturn::ERROR;
     }
 
-    // Store joint names and allocate vectors
-    joint_names_.reserve(hardware_info.joints.size());
-    for (const auto & joint : hardware_info.joints) {
-        joint_names_.push_back(joint.name);
+    // Read parameters.
+    auto & hw_params = info_.hardware_parameters;
+    std::string port = hw_params.at("port");
+    int baud_rate = std::stoi(hw_params.at("baud_rate"));
+    double protocol_version = std::stod(hw_params.at("protocol_version"));
+
+    // Store joint names and allocate vectors.
+    size_t n = info_.joints.size();
+    joint_names_.resize(n);
+    joint_ids_.resize(n);
+    gear_ratios_.resize(n);
+
+    for (size_t i = 0; i < n; ++i) {
+        const auto & joint_info = info_.joints[i];
+        joint_names_[i] = joint_info.name;
+
+        auto & params = joint_info.parameters;
+        joint_ids_[i] = static_cast<uint8_t>(std::stoi(params.at("dxl_id")));
+        gear_ratios_[i] = std::stod(params.at("gear_ratio"));
     }
 
-    size_t n = joint_names_.size();
+    // Allocate state and command vectors.
     joint_position_.assign(n, 0.0);
     joint_velocity_.assign(n, 0.0);
     joint_effort_.assign(n, 0.0);
@@ -29,11 +50,28 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInf
     joint_velocity_command_.assign(n, 0.0);
     joint_effort_command_.assign(n, 0.0);
 
-    // TODO initialize hardware
+    // Initialize DynamixelSDK.
+    port_handler_ =
+        std::shared_ptr<dynamixel::PortHandler>(
+            dynamixel::PortHandler::getPortHandler(port_name_.c_str()
+        ));
+    packet_handler_ =
+        std::shared_ptr<dynamixel::PacketHandler>(
+            dynamixel::PacketHandler::getPacketHandler(protocol_version_)
+        );
+
+    if (!port_handler_->openPort()) {
+        RCLCPP_FATAL(this->get_logger(), "Failed to open port %s", port_name_.c_str());
+        return CallbackReturn::ERROR;
+    }
+    if (!port_handler_->setBaudRate(baud_rate_)) {
+        RCLCPP_FATAL(this->get_logger(), "Failed to set baud rate %d", baud_rate_);
+        return CallbackReturn::ERROR;
+    }
 
     RCLCPP_INFO(
-        rclcpp::get_logger("obotis_mini::hardware"),
-        "Hardware interface initialized for %zu joints", n
+        this->get_logger(),
+        "Hardware interface initialized for %zu joints.", n
     );
     return CallbackReturn::SUCCESS;
 }
@@ -102,7 +140,23 @@ hardware_interface::return_type
 hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
     for (size_t i = 0; i < joint_names_.size(); ++i) {
-        // TODO poll hardware
+        uint8_t id = joint_ids_[i];
+        uint32_t dxl_present_pos = 0;
+        int comm_result =
+            packet_handler_->read4ByteTxRx(
+                port_handler_.get(),
+                id,
+                132, // ADDR_PRESENT_POSITION
+                &dxl_present_pos,
+                nullptr
+            );
+        if (comm_result == COMM_SUCCESS) {
+            joint_position_[i] =
+                convert_dxl_to_rad(dxl_present_pos, gear_ratios_[i]);
+        } else {
+            RCLCPP_ERROR(this->get_logger(), "Dynamixel read failed for ID %u", id);
+            return hardware_interface::return_type::ERROR;
+        }
     }
     return hardware_interface::return_type::OK;
 }
@@ -111,9 +165,37 @@ hardware_interface::return_type
 hardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
     for (size_t i = 0; i < joint_names_.size(); ++i) {
-        // TODO send commands
+        uint8_t id = joint_ids_[i];
+        double cmd_rad = joint_position_command_[i];
+        uint32_t dxl_goal_pos = convert_rad_to_dxl(cmd_rad, gear_ratios_[i]);
+        int comm_result =
+            packet_handler_->write4ByteTxRx(
+                port_handler_.get(),
+                id,
+                116, // ADDR_GOAL_POSITION
+                dxl_goal_pos,
+                nullptr
+            );
+        if (comm_result != COMM_SUCCESS) {
+            RCLCPP_ERROR(this->get_logger(), "Dynamixel write failed for ID %u", id);
+            return hardware_interface::return_type::ERROR;
+        }
     }
     return hardware_interface::return_type::OK;
+}
+
+uint32_t hardware::convert_rad_to_dxl(double rad, double gear_ratio) const
+{
+    double revolutions = rad / (2.0 * M_PI);
+    uint32_t dxl = static_cast<uint32_t>(revolutions * 4096.0 * gear_ratio);
+    return dxl;
+}
+
+double hardware::convert_dxl_to_rad(uint32_t dxl_val, double gear_ratio) const
+{
+    double revolutions = dxl_val / (4096.0 * gear_ratio);
+    double rad = revolutions * (2.0 * M_PI);
+    return rad;
 }
 
 }

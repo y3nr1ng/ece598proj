@@ -24,20 +24,18 @@ include_directories(
 add_library(hardware
   src/hardware.cpp
 )
-ament_target_dependencies(hardware
-  rclcpp
-  ros2_control
-  hardware_interface
-  controller_interface
+target_link_libraries(hardware
+  rclcpp::rclcpp
+  hardware_interface::hardware_interface
+  controller_interface::controller_interface
 )
 
 add_executable(kinematics
   src/nodes/kinematics.cpp
 )
-ament_target_dependencies(kinematics
-  rclcpp
-  sensor_msgs
-  geometry_msgs
+target_link_libraries(kinematics
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs_library
 )
 
 install(
@@ -50,7 +48,7 @@ install(
 )
 
 install(
-  DIRECTORY launch urdf config
+  DIRECTORY urdf
   DESTINATION share/${PROJECT_NAME}
 )
 

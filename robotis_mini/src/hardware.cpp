@@ -4,7 +4,7 @@
 namespace robotis_mini
 {
 
-CallbackReturn hardware::on_init(const hardware_interface::HardwareInfo & hardware_info)
+hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInfo & hardware_info)
 {
     if (hardware_info.joints.empty()) {
         RCLCPP_FATAL(

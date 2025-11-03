@@ -15,9 +15,6 @@
       <!-- <param name="write_rate">100</param> -->
     </hardware>
 
-    <!-- Declare each ACTUATED joint with interfaces + per-joint params.
-        NOTE: Joint_09 is fixed in your URDF, so it’s omitted here. -->
-
     <!-- Arms -->
     <joint name="Joint_01">
       <command_interface name="position"/>

@@ -27,6 +27,8 @@ public:
     ~hardware() override = default;
 
     CallbackReturn on_init(const hardware_interface::HardwareInfo & hardware_info) override;
+    CallbackReturn on_configure(const rclcpp_lifecycle::State & prev_state) override;
+    CallbackReturn on_cleanup  (const rclcpp_lifecycle::State & prev_state) override;
 
     std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
     std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
@@ -58,6 +60,7 @@ private:
     // Dynamixel SDK
     std::shared_ptr<dynamixel::PortHandler>   port_handler_;
     std::shared_ptr<dynamixel::PacketHandler> packet_handler_;
+    bool comms_ready_{false};
 
     std::string port_name_;
     int         baud_rate_{0};

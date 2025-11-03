@@ -50,6 +50,17 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInf
     joint_velocity_command_.assign(n, 0.0);
     joint_effort_command_.assign(n, 0.0);
 
+    comms_ready_ = false;
+    RCLCPP_INFO(
+        this->get_logger(),
+        "Hardware interface initialized for %zu joints.", n
+    );
+    return CallbackReturn::SUCCESS;
+}
+
+hardware::CallbackReturn
+hardware::on_configure(const rclcpp_lifecycle::State & /*prev_state*/)
+{
     // Initialize DynamixelSDK.
     port_handler_ =
         std::shared_ptr<dynamixel::PortHandler>(
@@ -66,13 +77,31 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareInf
     }
     if (!port_handler_->setBaudRate(baud_rate_)) {
         RCLCPP_FATAL(this->get_logger(), "Failed to set baud rate %d", baud_rate_);
+        port_handler_->closePort();
         return CallbackReturn::ERROR;
     }
 
+    comms_ready_ = true;
     RCLCPP_INFO(
         this->get_logger(),
-        "Hardware interface initialized for %zu joints.", n
+        "Configured DXL on %s @ %d baud (protocol %.1f)",
+        port_name_.c_str(), baud_rate_, protocol_version_
     );
+    return CallbackReturn::SUCCESS;
+}
+
+hardware::CallbackReturn
+hardware::on_cleanup(const rclcpp_lifecycle::State & /*prev_state*/)
+{
+    if (port_handler_) {
+        ort_handler_->closePort();
+    }
+
+    port_handler_.reset();
+    packet_handler_.reset();
+    comms_ready_ = false;
+
+    RCLCPP_INFO(this->get_logger(), "Hardware cleaned up.");
     return CallbackReturn::SUCCESS;
 }
 
@@ -139,6 +168,10 @@ hardware::export_command_interfaces()
 hardware_interface::return_type
 hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
+    if (!comms_ready_) {
+        return hardware_interface::return_type::ERROR;
+    }
+
     for (size_t i = 0; i < joint_names_.size(); ++i) {
         uint8_t id = joint_ids_[i];
         uint32_t dxl_present_pos = 0;
@@ -164,6 +197,10 @@ hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
 hardware_interface::return_type
 hardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
+    if (!comms_ready_) {
+        return hardware_interface::return_type::ERROR;
+    }
+
     for (size_t i = 0; i < joint_names_.size(); ++i) {
         uint8_t id = joint_ids_[i];
         double cmd_rad = joint_position_command_[i];

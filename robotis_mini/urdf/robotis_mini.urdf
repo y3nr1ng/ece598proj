@@ -546,7 +546,7 @@
     </collision>
   </link>
   <joint
-    name="Joint_8"
+    name="Joint_08"
     type="continuous">
     <origin
       xyz="0 0.0720000000000003 0.0239999999999996"
@@ -865,7 +865,7 @@
   </link>
   <joint
     name="Joint_09"
-    type="fixed">
+    type="continuous">
     <origin
       xyz="0.00600000000000023 0.0479999999999995 0.015"
       rpy="1.5707963267949 1.5707963267949 0" />

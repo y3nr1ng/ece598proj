@@ -1,4 +1,4 @@
-<library path="libhardware">
+<library path="hardware">
   <class name="robotis_mini/hardware"
          type="robotis_mini::hardware"
          base_class_type="hardware_interface::SystemInterface">

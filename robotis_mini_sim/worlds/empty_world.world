@@ -47,7 +47,6 @@
     <plugin filename="gz-sim-physics-system"
             name="gz::sim::systems::Physics">
       <engine>
-        <!-- try Bullet instead of DART -->
         <filename>gz-physics-bullet-plugin</filename>
       </engine>
     </plugin>

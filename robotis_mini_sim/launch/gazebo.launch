@@ -60,7 +60,7 @@ def generate_launch_description():
                        '-topic', 'robot_description',
                        '-allow_renaming', 'true'],
             output='screen'
-        )  # 'create' spawns from param/topic (URDF/SDF). :contentReference[oaicite:4]{index=4}
+        )
 
         # 4) Controller manager + spawners (JSB, JTC)
         cm = Node(
@@ -78,10 +78,6 @@ def generate_launch_description():
         return [gz, rsp, spawn, cm, jsb, jtc]
 
     return LaunchDescription([
-        # Resource/plugin search paths for Gazebo (optional; set if you ship models/plugins)
-        SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', PathJoinSubstitution([sim_pkg_share, 'models'])),
-        SetEnvironmentVariable('GZ_SIM_PLUGIN_PATH',   PathJoinSubstitution([sim_pkg_share, 'plugins'])),
-
         use_sim_time,
         world,
         OpaqueFunction(function=build_nodes),

@@ -29,7 +29,6 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareCom
     size_t n = info.joints.size();
     joint_names_.resize(n);
     joint_ids_.resize(n);
-    gear_ratios_.resize(n);
 
     for (size_t i = 0; i < n; ++i) {
         const auto & joint_info = info.joints[i];
@@ -37,7 +36,6 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareCom
 
         auto & params = joint_info.parameters;
         joint_ids_[i] = static_cast<uint8_t>(std::stoi(params.at("dxl_id")));
-        gear_ratios_[i] = std::stod(params.at("gear_ratio"));
     }
 
     // Allocate state and command vectors.
@@ -186,8 +184,7 @@ hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
                 nullptr
             );
         if (comm_result == COMM_SUCCESS) {
-            joint_position_[i] =
-                convert_dxl_to_rad(dxl_present_pos, gear_ratios_[i]);
+            joint_position_[i] = convert_dxl_to_rad(dxl_present_pos);
         } else {
             RCLCPP_ERROR(this->get_logger(), "Dynamixel read failed for ID %u", id);
             return hardware_interface::return_type::ERROR;
@@ -209,7 +206,7 @@ hardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
     for (size_t i = 0; i < joint_names_.size(); ++i) {
         uint8_t id = joint_ids_[i];
         double cmd_rad = joint_position_command_[i];
-        uint32_t dxl_goal_pos = convert_rad_to_dxl(cmd_rad, gear_ratios_[i]);
+        uint32_t dxl_goal_pos = convert_rad_to_dxl(cmd_rad);
         int comm_result =
             packet_handler_->write4ByteTxRx(
                 port_handler_.get(),

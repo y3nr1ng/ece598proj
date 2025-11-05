@@ -17,6 +17,7 @@ controller_manager:
         - Joint_06
         - Joint_07
         - Joint_08
+        - Joint_09
         - Joint_10
         - Joint_11
         - Joint_12
@@ -25,7 +26,7 @@ controller_manager:
         - Joint_15
         - Joint_16
       command_interfaces: ["position"]
-      state_interfaces:   ["position", "velocity"]
+      state_interfaces:   ["position", "velocity", "effort"]
 
       # Optional timing/tolerance parameters
       allow_partial_joints_goal: false

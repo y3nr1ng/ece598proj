@@ -43,7 +43,6 @@ private:
     // Mapped joints
     std::vector<std::string> joint_names_;
     std::vector<uint8_t>     joint_ids_;
-    std::vector<double>      gear_ratios_;
 
     // State vectors
     std::vector<double> joint_position_;
@@ -64,8 +63,8 @@ private:
     int         baud_rate_{0};
     double      protocol_version_{0.0};
 
-    uint32_t convert_rad_to_dxl(double rad, double gear_ratio) const;
-    double   convert_dxl_to_rad(uint32_t dxl_val, double gear_ratio) const;
+    uint32_t convert_rad_to_dxl(double rad, double gear_ratio = 1.0) const;
+    double   convert_dxl_to_rad(uint32_t dxl_val, double gear_ratio = 1.0) const;
 };
 
 }

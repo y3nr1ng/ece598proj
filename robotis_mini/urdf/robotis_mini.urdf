@@ -22,7 +22,6 @@
       <state_interface   name="velocity"/>
       <state_interface   name="effort"/>
       <param name="dxl_id">1</param>
-      <!-- <param name="gear_ratio">1.0</param>  (optional) -->
     </joint>
 
     <joint name="Joint_02">
@@ -145,8 +144,14 @@
       <state_interface   name="effort"/>
       <param name="dxl_id">16</param>
     </joint>
-
   </ros2_control>
+
+  <!-- Suppress KDL root-inertia warning. -->
+  <link name="world_link"/>
+  <joint name="world_to_body" type="fixed">
+    <parent link="world_link"/>
+    <child  link="Body"/>
+  </joint>
 
   <link name="Body">
     <inertial>
@@ -1035,4 +1040,132 @@
     <axis
       xyz="0 0 1" />
   </joint>
+
+  <!-- Enable convex decomposition for every collision mesh. -->
+  <gazebo reference="Body">
+    <collision>
+      <geometry>
+        <mesh>
+          <uri>package://robotis_mini/meshes/Body.STL</uri>
+          <convex_decomposition>true</convex_decomposition>
+        </mesh>
+      </geometry>
+    </collision>
+  </gazebo>
+
+  <!-- Arms (Left) -->
+  <gazebo reference="L_arm_01">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_arm_01.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="L_arm_02">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_arm_02.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="L_arm_03">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_arm_03.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <!-- Arms (Right) -->
+  <gazebo reference="R_arm_01">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_arm_01.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="R_arm_02">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_arm_02.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="R_arm_03">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_arm_03.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <!-- Legs (Left) -->
+  <gazebo reference="L_leg_01">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_leg_01.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="L_leg_02">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_leg_02.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="L_leg_03">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_leg_03.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="L_leg_04">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_leg_04.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="L_leg_05">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/L_leg_05.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <!-- Legs (Right) -->
+  <gazebo reference="R_leg_01">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_leg_01.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="R_Leg_02">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_Leg_02.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="R_leg_03">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_leg_03.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="R_leg_04">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_leg_04.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
+
+  <gazebo reference="R_leg_05">
+    <collision><geometry><mesh>
+      <uri>package://robotis_mini/meshes/R_leg_05.STL</uri>
+      <convex_decomposition>true</convex_decomposition>
+    </mesh></geometry></collision>
+  </gazebo>
 </robot>

@@ -33,7 +33,7 @@ def generate_launch_description():
         default_world = str(Path(ros_gz_sim_share) / 'worlds' / 'empty_world.world')
         world_file = LaunchConfiguration('world')
 
-        # 1) Gazebo Sim (Jetty) – start server+GUI using gz_sim.launch.py with gz_args
+        # 1) Start Gazebo server.
         gz = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_server_launch),
             launch_arguments={
@@ -60,18 +60,29 @@ def generate_launch_description():
             output='screen'
         )
 
-        # 4) Controller manager + spawners (JSB, JTC)
+        # 4) Controllers and spawners (JSB, JTC)
         cm = Node(
             package='controller_manager',
             executable='ros2_control_node',
-            parameters=[{'robot_description': robot_description_xml}, controllers_yaml],
+            parameters=[
+                controllers_yaml,
+                {'robot_description': robot_description_xml},
+            ],
             output='both'
         )
 
-        jsb = Node(package='controller_manager', executable='spawner',
-                   arguments=['joint_state_broadcaster'], output='screen')
-        jtc = Node(package='controller_manager', executable='spawner',
-                   arguments=['joint_trajectory_controller'], output='screen')
+        jsb = Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_state_broadcaster'],
+            output='screen'
+        )
+        jtc = Node(
+            package='controller_manager',
+            executable='spawner',
+            arguments=['joint_trajectory_controller'],
+            output='screen'
+        )
 
         return [gz, rsp, spawn, cm, jsb, jtc]
 

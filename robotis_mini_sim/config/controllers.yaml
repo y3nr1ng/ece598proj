@@ -1,36 +1,41 @@
-# controllers.yaml
 controller_manager:
   ros__parameters:
-    update_rate: 100  # [Hz]
+    update_rate: 50 # [Hz]
 
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
     joint_trajectory_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-      joints:
-        - Joint_01
-        - Joint_02
-        - Joint_03
-        - Joint_04
-        - Joint_05
-        - Joint_06
-        - Joint_07
-        - Joint_08
-        - Joint_09
-        - Joint_10
-        - Joint_11
-        - Joint_12
-        - Joint_13
-        - Joint_14
-        - Joint_15
-        - Joint_16
-      command_interfaces: ["position"]
-      state_interfaces:   ["position", "velocity", "effort"]
 
-      # Optional timing/tolerance parameters
-      allow_partial_joints_goal: false
-      open_loop_control: false
-      constraints:
-        stopped_velocity_tolerance: 0.01
-        goal_time: 0.5
+joint_state_broadcaster:
+  ros__parameters: {}
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - Joint_01
+      - Joint_02
+      - Joint_03
+      - Joint_04
+      - Joint_05
+      - Joint_06
+      - Joint_07
+      - Joint_08
+      - Joint_09
+      - Joint_10
+      - Joint_11
+      - Joint_12
+      - Joint_13
+      - Joint_14
+      - Joint_15
+      - Joint_16
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    allow_partial_joints_goal: false

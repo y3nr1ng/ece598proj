@@ -59,7 +59,15 @@ file(GLOB_RECURSE dynamixel_sdk_files
   "${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/src/dynamixel_sdk/*.cpp"
 )
 
-add_library(dynamixel_sdk ${dynamixel_sdk_files})
+add_library(dynamixel_sdk STATIC
+  ${dynamixel_sdk_files}
+)
+
+# -fPIC
+set_target_properties(dynamixel_sdk
+PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
+)
 
 # Treat SDK headers as SYSTEM to hide their warnings
 target_include_directories(dynamixel_sdk
@@ -154,12 +162,10 @@ install(
 )
 
 install(
-  DIRECTORY urdf
-  DESTINATION share/${PROJECT_NAME}
-)
-
-# Install plugin_description and config dirs
-install(DIRECTORY plugin_description
+  DIRECTORY
+    urdf
+    config
+    plugin_description
   DESTINATION share/${PROJECT_NAME}
 )
 

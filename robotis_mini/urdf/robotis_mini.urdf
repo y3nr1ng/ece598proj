@@ -10,9 +10,6 @@
       <param name="port">/dev/ttyUSB0</param>
       <param name="baud_rate">1000000</param>
       <param name="protocol_version">2.0</param>
-
-      <!-- <param name="read_rate">100</param> -->
-      <!-- <param name="write_rate">100</param> -->
     </hardware>
 
     <!-- Arms -->

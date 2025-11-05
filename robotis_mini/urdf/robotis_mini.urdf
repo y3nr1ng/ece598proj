@@ -874,7 +874,7 @@
     <child
       link="R_Leg_02" />
     <axis
-      xyz="0 0 0" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="R_leg_03">

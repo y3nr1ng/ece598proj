@@ -164,6 +164,7 @@ install(
 install(
   DIRECTORY
     urdf
+    meshes
     config
     plugin_description
   DESTINATION share/${PROJECT_NAME}

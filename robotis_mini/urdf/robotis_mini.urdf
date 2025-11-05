@@ -169,7 +169,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/Body.STL" />
+          filename="package://robotis_mini/meshes/Body.STL" />
       </geometry>
       <material
         name="">
@@ -183,7 +183,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/Body.STL" />
+          filename="package://robotis_mini/meshes/Body.STL" />
       </geometry>
     </collision>
   </link>
@@ -209,7 +209,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_arm_01.STL" />
+          filename="package://robotis_mini/meshes/L_arm_01.STL" />
       </geometry>
       <material
         name="">
@@ -223,7 +223,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_arm_01.STL" />
+          filename="package://robotis_mini/meshes/L_arm_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -262,7 +262,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_arm_02.STL" />
+          filename="package://robotis_mini/meshes/L_arm_02.STL" />
       </geometry>
       <material
         name="">
@@ -276,7 +276,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_arm_02.STL" />
+          filename="package://robotis_mini/meshes/L_arm_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -315,7 +315,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_arm_03.STL" />
+          filename="package://robotis_mini/meshes/L_arm_03.STL" />
       </geometry>
       <material
         name="">
@@ -329,7 +329,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_arm_03.STL" />
+          filename="package://robotis_mini/meshes/L_arm_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -368,7 +368,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_arm_01.STL" />
+          filename="package://robotis_mini/meshes/R_arm_01.STL" />
       </geometry>
       <material
         name="">
@@ -382,7 +382,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_arm_01.STL" />
+          filename="package://robotis_mini/meshes/R_arm_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -421,7 +421,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_arm_02.STL" />
+          filename="package://robotis_mini/meshes/R_arm_02.STL" />
       </geometry>
       <material
         name="">
@@ -435,7 +435,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_arm_02.STL" />
+          filename="package://robotis_mini/meshes/R_arm_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -474,7 +474,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_arm_03.STL" />
+          filename="package://robotis_mini/meshes/R_arm_03.STL" />
       </geometry>
       <material
         name="">
@@ -488,7 +488,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_arm_03.STL" />
+          filename="package://robotis_mini/meshes/R_arm_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -527,7 +527,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_01.STL" />
+          filename="package://robotis_mini/meshes/L_leg_01.STL" />
       </geometry>
       <material
         name="">
@@ -541,7 +541,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_01.STL" />
+          filename="package://robotis_mini/meshes/L_leg_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -580,7 +580,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_02.STL" />
+          filename="package://robotis_mini/meshes/L_leg_02.STL" />
       </geometry>
       <material
         name="">
@@ -594,7 +594,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_02.STL" />
+          filename="package://robotis_mini/meshes/L_leg_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -633,7 +633,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_03.STL" />
+          filename="package://robotis_mini/meshes/L_leg_03.STL" />
       </geometry>
       <material
         name="">
@@ -647,7 +647,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_03.STL" />
+          filename="package://robotis_mini/meshes/L_leg_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -686,7 +686,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_04.STL" />
+          filename="package://robotis_mini/meshes/L_leg_04.STL" />
       </geometry>
       <material
         name="">
@@ -700,7 +700,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_04.STL" />
+          filename="package://robotis_mini/meshes/L_leg_04.STL" />
       </geometry>
     </collision>
   </link>
@@ -739,7 +739,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_05.STL" />
+          filename="package://robotis_mini/meshes/L_leg_05.STL" />
       </geometry>
       <material
         name="">
@@ -753,7 +753,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/L_leg_05.STL" />
+          filename="package://robotis_mini/meshes/L_leg_05.STL" />
       </geometry>
     </collision>
   </link>
@@ -792,7 +792,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_01.STL" />
+          filename="package://robotis_mini/meshes/R_leg_01.STL" />
       </geometry>
       <material
         name="">
@@ -806,7 +806,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_01.STL" />
+          filename="package://robotis_mini/meshes/R_leg_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -845,7 +845,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_Leg_02.STL" />
+          filename="package://robotis_mini/meshes/R_Leg_02.STL" />
       </geometry>
       <material
         name="">
@@ -859,7 +859,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_Leg_02.STL" />
+          filename="package://robotis_mini/meshes/R_Leg_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -898,7 +898,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_03.STL" />
+          filename="package://robotis_mini/meshes/R_leg_03.STL" />
       </geometry>
       <material
         name="">
@@ -912,7 +912,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_03.STL" />
+          filename="package://robotis_mini/meshes/R_leg_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -951,7 +951,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_04.STL" />
+          filename="package://robotis_mini/meshes/R_leg_04.STL" />
       </geometry>
       <material
         name="">
@@ -965,7 +965,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_04.STL" />
+          filename="package://robotis_mini/meshes/R_leg_04.STL" />
       </geometry>
     </collision>
   </link>
@@ -1004,7 +1004,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_05.STL" />
+          filename="package://robotis_mini/meshes/R_leg_05.STL" />
       </geometry>
       <material
         name="">
@@ -1018,7 +1018,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://meshes/R_leg_05.STL" />
+          filename="package://robotis_mini/meshes/R_leg_05.STL" />
       </geometry>
     </collision>
   </link>

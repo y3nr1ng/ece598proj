@@ -43,5 +43,14 @@
       </ode>
     </physics>
 
+    <!-- 110425 dartsim does not support mesh construction from an SDF -->
+    <plugin filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics">
+      <engine>
+        <!-- try Bullet instead of DART -->
+        <filename>gz-physics-bullet-plugin</filename>
+      </engine>
+    </plugin>
+
   </world>
 </sdf>

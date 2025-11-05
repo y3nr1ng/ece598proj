@@ -9,16 +9,10 @@ from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from pathlib import Path
 
-def _read_urdf(context):
-    core = get_package_share_directory('robotis_mini')
-    urdf = PathJoinSubstitution([core, 'urdf', 'robotis_mini.urdf']).perform(context)
-    return Path(urdf).read_text()
-
 def generate_launch_description():
     # Package shares
     ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
     sim_pkg_share    = FindPackageShare('robotis_mini_sim')
-    core_pkg_share   = FindPackageShare('robotis_mini')
 
     # Paths
     gz_server_launch = PathJoinSubstitution([ros_gz_sim_share, 'launch', 'gz_server.launch.py'])
@@ -28,6 +22,10 @@ def generate_launch_description():
     # Args
     use_sim_time = DeclareLaunchArgument('use_sim_time', default_value='true')
     world = DeclareLaunchArgument('world', default_value=default_world)
+
+    def _read_urdf(context):
+        urdf = PathJoinSubstitution([sim_pkg_share, 'urdf', 'robotis_mini.urdf']).perform(context)
+        return Path(urdf).read_text()
 
     # Build the dynamic part after we have the context (to read URDF once)
     def build_nodes(context, *_, **__):

@@ -3,13 +3,18 @@
      Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot name="mini">
-  <ros2_control name="robotis_mini_system" type="system">
+  <ros2_control name="robotis_mini_sim_system" type="system">
     <hardware>
-      <plugin>robotis_mini/hardware</plugin>
+      <!--
+      <plugin>robotis_mini_sim/hardware</plugin>
 
       <param name="port">/dev/ttyUSB0</param>
       <param name="baud_rate">1000000</param>
       <param name="protocol_version">2.0</param>
+      -->
+
+      <plugin>mock_components/GenericSystem</plugin>
+      <param name="mock_sensor_commands">true</param>
     </hardware>
 
     <!-- Arms -->
@@ -171,7 +176,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/Body.STL" />
+          filename="package://robotis_mini_sim/meshes/Body.STL" />
       </geometry>
       <material
         name="">
@@ -185,7 +190,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/Body.STL" />
+          filename="package://robotis_mini_sim/meshes/Body.STL" />
       </geometry>
     </collision>
   </link>
@@ -211,7 +216,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_arm_01.STL" />
+          filename="package://robotis_mini_sim/meshes/L_arm_01.STL" />
       </geometry>
       <material
         name="">
@@ -225,7 +230,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_arm_01.STL" />
+          filename="package://robotis_mini_sim/meshes/L_arm_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -264,7 +269,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_arm_02.STL" />
+          filename="package://robotis_mini_sim/meshes/L_arm_02.STL" />
       </geometry>
       <material
         name="">
@@ -278,7 +283,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_arm_02.STL" />
+          filename="package://robotis_mini_sim/meshes/L_arm_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -317,7 +322,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_arm_03.STL" />
+          filename="package://robotis_mini_sim/meshes/L_arm_03.STL" />
       </geometry>
       <material
         name="">
@@ -331,7 +336,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_arm_03.STL" />
+          filename="package://robotis_mini_sim/meshes/L_arm_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -370,7 +375,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_arm_01.STL" />
+          filename="package://robotis_mini_sim/meshes/R_arm_01.STL" />
       </geometry>
       <material
         name="">
@@ -384,7 +389,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_arm_01.STL" />
+          filename="package://robotis_mini_sim/meshes/R_arm_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -423,7 +428,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_arm_02.STL" />
+          filename="package://robotis_mini_sim/meshes/R_arm_02.STL" />
       </geometry>
       <material
         name="">
@@ -437,7 +442,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_arm_02.STL" />
+          filename="package://robotis_mini_sim/meshes/R_arm_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -476,7 +481,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_arm_03.STL" />
+          filename="package://robotis_mini_sim/meshes/R_arm_03.STL" />
       </geometry>
       <material
         name="">
@@ -490,7 +495,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_arm_03.STL" />
+          filename="package://robotis_mini_sim/meshes/R_arm_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -529,7 +534,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_01.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_01.STL" />
       </geometry>
       <material
         name="">
@@ -543,7 +548,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_01.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -582,7 +587,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_02.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_02.STL" />
       </geometry>
       <material
         name="">
@@ -596,7 +601,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_02.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -635,7 +640,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_03.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_03.STL" />
       </geometry>
       <material
         name="">
@@ -649,7 +654,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_03.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -688,7 +693,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_04.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_04.STL" />
       </geometry>
       <material
         name="">
@@ -702,7 +707,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_04.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_04.STL" />
       </geometry>
     </collision>
   </link>
@@ -741,7 +746,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_05.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_05.STL" />
       </geometry>
       <material
         name="">
@@ -755,7 +760,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/L_leg_05.STL" />
+          filename="package://robotis_mini_sim/meshes/L_leg_05.STL" />
       </geometry>
     </collision>
   </link>
@@ -794,7 +799,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_01.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_01.STL" />
       </geometry>
       <material
         name="">
@@ -808,7 +813,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_01.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_01.STL" />
       </geometry>
     </collision>
   </link>
@@ -847,7 +852,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_Leg_02.STL" />
+          filename="package://robotis_mini_sim/meshes/R_Leg_02.STL" />
       </geometry>
       <material
         name="">
@@ -861,7 +866,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_Leg_02.STL" />
+          filename="package://robotis_mini_sim/meshes/R_Leg_02.STL" />
       </geometry>
     </collision>
   </link>
@@ -900,7 +905,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_03.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_03.STL" />
       </geometry>
       <material
         name="">
@@ -914,7 +919,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_03.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_03.STL" />
       </geometry>
     </collision>
   </link>
@@ -953,7 +958,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_04.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_04.STL" />
       </geometry>
       <material
         name="">
@@ -967,7 +972,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_04.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_04.STL" />
       </geometry>
     </collision>
   </link>
@@ -1006,7 +1011,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_05.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_05.STL" />
       </geometry>
       <material
         name="">
@@ -1020,7 +1025,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://robotis_mini/meshes/R_leg_05.STL" />
+          filename="package://robotis_mini_sim/meshes/R_leg_05.STL" />
       </geometry>
     </collision>
   </link>
@@ -1043,7 +1048,7 @@
     <collision>
       <geometry>
         <mesh>
-          <uri>package://robotis_mini/meshes/Body.STL</uri>
+          <uri>package://robotis_mini_sim/meshes/Body.STL</uri>
           <convex_decomposition>true</convex_decomposition>
         </mesh>
       </geometry>
@@ -1053,21 +1058,21 @@
   <!-- Arms (Left) -->
   <gazebo reference="L_arm_01">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_arm_01.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_arm_01.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="L_arm_02">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_arm_02.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_arm_02.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="L_arm_03">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_arm_03.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_arm_03.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
@@ -1075,21 +1080,21 @@
   <!-- Arms (Right) -->
   <gazebo reference="R_arm_01">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_arm_01.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_arm_01.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="R_arm_02">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_arm_02.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_arm_02.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="R_arm_03">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_arm_03.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_arm_03.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
@@ -1097,35 +1102,35 @@
   <!-- Legs (Left) -->
   <gazebo reference="L_leg_01">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_leg_01.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_leg_01.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="L_leg_02">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_leg_02.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_leg_02.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="L_leg_03">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_leg_03.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_leg_03.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="L_leg_04">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_leg_04.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_leg_04.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="L_leg_05">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/L_leg_05.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/L_leg_05.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
@@ -1133,35 +1138,35 @@
   <!-- Legs (Right) -->
   <gazebo reference="R_leg_01">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_leg_01.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_leg_01.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="R_Leg_02">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_Leg_02.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_Leg_02.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="R_leg_03">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_leg_03.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_leg_03.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="R_leg_04">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_leg_04.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_leg_04.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>
 
   <gazebo reference="R_leg_05">
     <collision><geometry><mesh>
-      <uri>package://robotis_mini/meshes/R_leg_05.STL</uri>
+      <uri>package://robotis_mini_sim/meshes/R_leg_05.STL</uri>
       <convex_decomposition>true</convex_decomposition>
     </mesh></geometry></collision>
   </gazebo>

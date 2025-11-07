@@ -30,7 +30,6 @@ def generate_launch_description():
     # Build the dynamic part after we have the context (to read URDF once)
     def build_nodes(context, *_, **__):
         robot_description_xml = _read_urdf(context)
-        default_world = str(Path(ros_gz_sim_share) / 'worlds' / 'empty_world.world')
         world_file = LaunchConfiguration('world')
 
         # 1) Start Gazebo server.

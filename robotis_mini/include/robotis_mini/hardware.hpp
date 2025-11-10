@@ -11,6 +11,10 @@
 #include "hardware_interface/hardware_info.hpp"
 
 #ifndef USE_DYNAMIXEL
+#define USE_DYNAMIXEL 0
+#endif
+
+#ifndef USE_DYNAMIXEL
 #include "dynamixel_sdk/port_handler.h"
 #include "dynamixel_sdk/packet_handler.h"
 #endif

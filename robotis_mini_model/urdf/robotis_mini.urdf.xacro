@@ -5,15 +5,15 @@
        xmlns:xacro="http://www.ros.org/wiki/xacro"
        name="robotis_mini" >
 
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/materials.urdf.xacro" />
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/common.urdf.xacro" />
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/servo.urdf.xacro" />
+  <xacro:include filename="materials.urdf.xacro" />
+  <xacro:include filename="common.urdf.xacro" />
+  <xacro:include filename="servo.urdf.xacro" />
 
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/base.urdf.xacro" />
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/body.urdf.xacro" />
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/arm.urdf.xacro" />
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/hand.urdf.xacro" />
-  <xacro:include filename="$(find-pkg-share robotis_mini_model)/urdf/leg.urdf.xacro" />
+  <xacro:include filename="base.urdf.xacro" />
+  <xacro:include filename="body.urdf.xacro" />
+  <xacro:include filename="arm.urdf.xacro" />
+  <xacro:include filename="hand.urdf.xacro" />
+  <xacro:include filename="leg.urdf.xacro" />
 
   <xacro:robotis_mini_base name="base"/>
 

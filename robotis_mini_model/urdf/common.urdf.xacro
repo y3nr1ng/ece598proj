@@ -9,7 +9,7 @@
   <xacro:property name="INERTIA_SCALE" value="${1.2645021e-6 * 1e-6}" />
     <!--
         I = m * r^2
-      The inertia tensor computed by MeshLab assumes the mass m is equal 
+      The inertia tensor computed by MeshLab assumes the mass m is equal
       to the MeshVolume.  We could compute a scaling factor for each part:
         s = ActualMass / MeshVolume
       However, since it is almost the same for all parts, we compute a
@@ -63,7 +63,7 @@
       <kp>10000.0</kp>
       <kd>100.0</kd>
       <minDepth>0.001</minDepth>
-      <maxContacts>100</maxContacts> 
+      <maxContacts>100</maxContacts>
     </gazebo>
   </xacro:macro>
 
@@ -94,7 +94,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://robotis_mini_description/meshes/Body.STL" />
+            filename="package://robotis_mini_model/meshes/Body.STL" />
         </geometry>
         <material
           name="">
@@ -108,7 +108,7 @@
           rpy="0 0 0" />
         <geometry>
           <mesh
-            filename="package://robotis_mini_description/meshes/Body.STL" />
+            filename="package://robotis_mini_model/meshes/Body.STL" />
         </geometry>
       </collision>
     </link>
@@ -154,7 +154,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B01(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B01(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -168,7 +168,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B01(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B01(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -185,7 +185,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMB-B02(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMB-B02(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -199,7 +199,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMB-B02(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMB-B02(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -216,7 +216,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B03(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B03(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -230,7 +230,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B03(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B03(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -247,7 +247,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B04(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B04(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -261,7 +261,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B04(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B04(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -278,7 +278,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B05(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B05(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -292,7 +292,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B05(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B05(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -309,7 +309,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B06(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B06(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -323,7 +323,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B06(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B06(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -340,7 +340,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B07(GR).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B07(GR).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="LightGrey" />
       </visual>
@@ -354,7 +354,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-B07(GR)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-B07(GR)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -371,7 +371,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-F01(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-F01(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -385,7 +385,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/DMF-F01(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/DMF-F01(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -402,7 +402,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPU-5(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPU-5(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -416,7 +416,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPU-5(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPU-5(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -433,7 +433,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-3B3(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-3B3(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -447,7 +447,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-3B3(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-3B3(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -464,7 +464,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-3B5(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-3B5(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -478,7 +478,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-3B5(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-3B5(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -495,7 +495,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-3B7(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-3B7(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -509,13 +509,13 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-3B7(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-3B7(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
     <xacro:friction_properties link_name="${name}"/>
   </xacro:macro>
-  
+
   <xacro:macro name="robotis_mini_spd4b5" params="name parent xyz rpy">
     <joint name="${name}_joint" type="fixed">
       <origin xyz="${xyz}" rpy="${rpy}" />
@@ -526,7 +526,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-4B5(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-4B5(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -540,7 +540,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-4B5(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-4B5(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -557,7 +557,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-7V4(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-7V4(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -571,7 +571,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPD-7V4(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPD-7V4(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -588,7 +588,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPL-2B2(W).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPL-2B2(W).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="White" />
       </visual>
@@ -602,7 +602,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPL-2B2(W)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPL-2B2(W)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -619,7 +619,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPO-5(GR).stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPO-5(GR).stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="LightGrey" />
       </visual>
@@ -633,7 +633,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/SPO-5(GR)_s.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/SPO-5(GR)_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>
@@ -676,7 +676,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/XL-320D.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="${STL_SCALE}" />
         </geometry>
         <material name="Grey" />
       </visual>
@@ -690,7 +690,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_description/meshes/XL-320D.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>

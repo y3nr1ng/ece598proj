@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import SetEnvironmentVariable, IncludeLaunchDescription, OpaqueFunction, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -11,12 +10,13 @@ from pathlib import Path
 
 def generate_launch_description():
     # Package shares
-    ros_gz_sim_share = get_package_share_directory('ros_gz_sim')
+    ros_gz_sim_share = FindPackageShare('ros_gz_sim')
     sim_pkg_share    = FindPackageShare('robotis_mini_sim')
+    model_pkg_share  = FindPackageShare('robotis_mini_model')
 
     # Paths
     gz_server_launch = PathJoinSubstitution([ros_gz_sim_share, 'launch', 'gz_server.launch.py'])
-    default_world = PathJoinSubstitution([sim_pkg_share, 'worlds', 'empty_world.world'])
+    default_world = PathJoinSubstitution([sim_pkg_share, 'worlds', 'empty.world'])
     controllers_yaml = PathJoinSubstitution([sim_pkg_share, 'config', 'controllers.yaml'])
 
     # Args
@@ -24,7 +24,7 @@ def generate_launch_description():
     world = DeclareLaunchArgument('world', default_value=default_world)
 
     def _read_urdf(context):
-        urdf = PathJoinSubstitution([sim_pkg_share, 'urdf', 'robotis_mini.urdf']).perform(context)
+        urdf = PathJoinSubstitution([model_pkg_share, 'urdf', 'robotis_mini.urdf']).perform(context)
         return Path(urdf).read_text()
 
     # Build the dynamic part after we have the context (to read URDF once)

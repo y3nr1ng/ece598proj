@@ -19,3 +19,7 @@ LIBGL_DRI3_DISABLE=1 gz sim -g
 gz sim -g --render-engine ogre
 ```
 https://gazebosim.org/docs/latest/troubleshooting/#unable-to-create-the-rendering-window
+
+Running ROS2 on macOS is still not functional.
+hit this issue https://github.com/ros-controls/gz_ros2_control/issues/604
+

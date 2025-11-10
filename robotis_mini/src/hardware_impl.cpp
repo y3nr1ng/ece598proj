@@ -4,15 +4,13 @@
 namespace robotis_mini
 {
 
-hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::HardwareInfo & params)
+hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::HardwareInfo & hw_info)
 {
-    if (hardware_interface::SystemInterface::on_init(params) != CallbackReturn::SUCCESS) {
+    if (hardware_interface::SystemInterface::on_init(hw_info) != CallbackReturn::SUCCESS) {
         return CallbackReturn::ERROR;
     }
 
-    const auto & info = params;
-
-    if (info.joints.empty()) {
+    if (hw_info.joints.empty()) {
         RCLCPP_FATAL(
             this->get_logger(),
             "No joints specified in hardware info."
@@ -20,18 +18,20 @@ hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::H
         return CallbackReturn::ERROR;
     }
 
-    auto & hw_params = info.hardware_parameters;
+#if USE_DYNAMIXEL
+    auto & hw_params = hw_info.hardware_parameters;
     port_name_        = hw_params.at("port");
     baud_rate_        = std::stoi(hw_params.at("baud_rate"));
     protocol_version_ = std::stod(hw_params.at("protocol_version"));
+#endif
 
     // Store joint names and allocate vectors.
-    size_t n = info.joints.size();
+    size_t n = hw_info.joints.size();
     joint_names_.resize(n);
     joint_ids_.resize(n);
 
     for (size_t i = 0; i < n; ++i) {
-        const auto & joint_info = info.joints[i];
+        const auto & joint_info = hw_info.joints[i];
         joint_names_[i] = joint_info.name;
 
         auto & params = joint_info.parameters;

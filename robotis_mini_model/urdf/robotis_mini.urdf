@@ -343,7 +343,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -538,7 +538,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -647,7 +647,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -772,7 +772,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -1297,7 +1297,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -1406,7 +1406,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -1531,7 +1531,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2056,7 +2056,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2181,7 +2181,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2338,7 +2338,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2479,7 +2479,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2636,7 +2636,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2745,7 +2745,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -2870,7 +2870,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -3027,7 +3027,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -3168,7 +3168,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>
@@ -3325,7 +3325,7 @@
     </inertial>
     <collision>
       <geometry>
-        <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
   </link>

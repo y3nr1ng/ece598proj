@@ -690,7 +690,7 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/XL-320D.stl" scale="${STL_SCALE}" />
+          <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="${STL_SCALE}" />
         </geometry>
       </collision>
     </link>

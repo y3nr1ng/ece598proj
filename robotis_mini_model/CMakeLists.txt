@@ -12,6 +12,7 @@ xacro_add_files(
   ${CMAKE_CURRENT_SOURCE_DIR}/urdf/robotis_mini.urdf.xacro
   TARGET robotis_mini
   INSTALL DESTINATION urdf
+  REMAP use_sim:=true # use dynamixel or not
 )
 
 # Install meshes.

@@ -7,3 +7,12 @@
     </description>
   </class>
 </library>
+<library path="hardware_sim">
+  <class name="robotis_mini/hardware_sim"
+         type="robotis_mini::hardware_sim"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Simulated hardware interface plugin for the Robotis MINI system.
+    </description>
+  </class>
+</library>

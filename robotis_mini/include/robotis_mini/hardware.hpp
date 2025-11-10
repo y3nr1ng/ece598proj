@@ -14,7 +14,7 @@
 #define USE_DYNAMIXEL 0
 #endif
 
-#ifndef USE_DYNAMIXEL
+#if USE_DYNAMIXEL
 #include "dynamixel_sdk/port_handler.h"
 #include "dynamixel_sdk/packet_handler.h"
 #endif
@@ -22,16 +22,16 @@
 namespace robotis_mini
 {
 
-class hardware : public hardware_interface::SystemInterface
+class hardware_impl : public hardware_interface::SystemInterface
 {
 public:
     using CallbackReturn =
         rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
-    hardware() = default;
-    ~hardware() override = default;
+    hardware_impl() = default;
+    ~hardware_impl() override = default;
 
-    CallbackReturn on_init(const hardware_interface::HardwareComponentInterfaceParams & params) override;
+    CallbackReturn on_init(const hardware_interface::HardwareInfo & params) override;
     CallbackReturn on_configure(const rclcpp_lifecycle::State & prev_state) override;
     CallbackReturn on_cleanup  (const rclcpp_lifecycle::State & prev_state) override;
 
@@ -59,7 +59,7 @@ private:
     std::vector<double> joint_velocity_command_;
     std::vector<double> joint_effort_command_;
 
-#ifndef USE_DYNAMIXEL
+#if USE_DYNAMIXEL
     // Dynamixel SDK
     std::shared_ptr<dynamixel::PortHandler>   port_handler_;
     std::shared_ptr<dynamixel::PacketHandler> packet_handler_;

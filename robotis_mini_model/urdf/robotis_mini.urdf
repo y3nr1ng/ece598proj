@@ -47,6 +47,17 @@
   <xacro:property name="MESHVOLUME_SPO5"   value="511.205475" />
   <xacro:property name="MESHVOLUME_XL320"  value="16403.394531" />
   -->
+  <ros2_control name="robotis_mini" type="system">
+    <hardware>
+      <plugin>robotis_mini/hardware_sim</plugin>
+      <!-- Params for real hardware. -->
+      <param name="port">/dev/ttyUSB0</param>
+      <param name="baud">1000000</param>
+      <param name="protocol">2.0</param>
+    </hardware>
+    <!-- Emit interfaces for every joint in ${joints} -->
+    <!-- TODO -->
+  </ros2_control>
   <link name="base_link"/>
   <!-- Camera -->
   <link name="camera_link"/>

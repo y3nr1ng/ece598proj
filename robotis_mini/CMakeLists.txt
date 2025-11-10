@@ -6,7 +6,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-option(USE_DYNAMIXEL "Build with DynamixelSDK dependency" OFF)
+option(USE_DYNAMIXEL "Build with DynamixelSDK dependency" ON)
 
 find_package(ament_cmake REQUIRED)
 
@@ -87,32 +87,46 @@ endif()
 # ----------------------------
 # Hardware plugin (ros2_control SystemInterface)
 # ----------------------------
-add_library(hardware SHARED
-  src/hardware.cpp
-)
 
-target_include_directories(hardware
+# Simulate
+add_library(hardware_sim
+  SHARED
+    src/hardware_impl.cpp
+    src/hardware_sim.cpp
+)
+target_include_directories(hardware_sim
   PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/include
+    include
 )
-
-# Define flag.
-target_compile_definitions(hardware PUBLIC
-  $<$<BOOL:${USE_DYNAMIXEL}>:USE_DYNAMIXEL>)
-
-target_link_libraries(hardware
+target_link_libraries(hardware_sim
   rclcpp::rclcpp
   hardware_interface::hardware_interface
   controller_interface::controller_interface
   pluginlib::pluginlib
 )
+
+# Real
 if(USE_DYNAMIXEL)
-  target_link_libraries(hardware dynamixel_sdk)
+  add_library(hardware
+    SHARED
+      src/hardware_impl.cpp
+      src/hardware.cpp
+  )
+  target_include_directories(hardware
+    PUBLIC
+      include
+      lib/DynamixelSDK/c++/include
+  )
+  target_link_libraries(hardware
+    rclcpp::rclcpp
+    hardware_interface::hardware_interface
+    controller_interface::controller_interface
+    pluginlib::pluginlib
+    dynamixel_sdk
+  )
 endif()
 
-# Export plugin XML for controller_manager to discover
-# (First arg MUST be 'hardware_interface' per ros2_control docs)
+# Export plugin XML for controller_manager to discover.
 pluginlib_export_plugin_description_file(hardware_interface
   plugin_description/hardware.xml
 )
@@ -163,13 +177,23 @@ target_link_libraries(restore_initial_pose
 # ----------------------------
 install(
   TARGETS
-    hardware
+    hardware_sim
     kinematics
     restore_initial_pose
   RUNTIME DESTINATION lib/${PROJECT_NAME}
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
 )
+
+if(USE_DYNAMIXEL)
+  install(
+    TARGETS
+      hardware
+    RUNTIME DESTINATION lib/${PROJECT_NAME}
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+  )
+endif()
 
 install(
   DIRECTORY

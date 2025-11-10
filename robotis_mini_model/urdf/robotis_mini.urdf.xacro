@@ -15,6 +15,10 @@
   <xacro:include filename="hand.urdf.xacro" />
   <xacro:include filename="leg.urdf.xacro" />
 
+  <xacro:include filename="ros2_control.urdf.xacro" />
+
+  <xacro:robotis_mini_ros2 />
+
   <xacro:robotis_mini_base name="base"/>
 
   <!-- <xacro:robotis_mini_body2 parent="base_link" />

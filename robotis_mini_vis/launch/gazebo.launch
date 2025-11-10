@@ -22,9 +22,13 @@ def generate_launch_description():
     # Args
     use_sim_time = DeclareLaunchArgument('use_sim_time', default_value='true')
     world = DeclareLaunchArgument('world', default_value=default_world)
+    spawn_z = DeclareLaunchArgument(
+        'spawn_z', default_value='0.20',
+        description='Initial Z height for robot spawn (meters)'
+    )
 
     def _read_urdf(context):
-        urdf = PathJoinSubstitution([model_pkg_share, 'urdf', 'robotis_mini.urdf']).perform(context)
+        urdf = PathJoinSubstitution([model_pkg_share, 'urdf', 'robotis_mini_spherized.urdf']).perform(context)
         return Path(urdf).read_text()
 
     # Build the dynamic part after we have the context (to read URDF once)
@@ -55,7 +59,8 @@ def generate_launch_description():
             executable='create',
             arguments=['-name', 'robotis_mini',
                        '-topic', 'robot_description',
-                       '-allow_renaming', 'true'],
+                       '-allow_renaming', 'true',
+                       '-x', '0', '-y', '0', '-z', LaunchConfiguration('spawn_z')],
             output='screen'
         )
 
@@ -88,5 +93,6 @@ def generate_launch_description():
     return LaunchDescription([
         use_sim_time,
         world,
+        spawn_z,
         OpaqueFunction(function=build_nodes),
     ])

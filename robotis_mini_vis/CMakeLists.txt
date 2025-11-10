@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(robotis_mini_sim)
+project(robotis_mini_vis)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)

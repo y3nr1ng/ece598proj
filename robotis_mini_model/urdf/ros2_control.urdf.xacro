@@ -13,12 +13,15 @@
     r_shoulder_pitch r_shoulder_roll r_elbow
   "/>
 
-  <xacro:macro name="ifaces_for_joint" params="name">
+  <xacro:macro name="ifaces_for_joint" params="name dxl_id:=">
     <joint name="${name}">
       <command_interface name="position"/>
       <state_interface   name="position"/>
       <state_interface   name="velocity"/>
       <state_interface   name="effort"/>
+      <xacro:if value="${dxl_id}">
+        <param name="dxl_id">${dxl_id}</param>
+      </xacro:if>
     </joint>
   </xacro:macro>
 
@@ -39,7 +42,22 @@
       </hardware>
 
       <!-- Emit interfaces for every joint in ${joints} -->
-      <!-- TODO -->
+      <xacro:ifaces_for_joint name="l_shoulder_joint" dxl_id="1"/>
+      <xacro:ifaces_for_joint name="r_shoulder_joint" dxl_id="2"/>
+      <xacro:ifaces_for_joint name="l_biceps_joint" dxl_id="3"/>
+      <xacro:ifaces_for_joint name="r_biceps_joint" dxl_id="4"/>
+      <xacro:ifaces_for_joint name="l_elbow_joint" dxl_id="5"/>
+      <xacro:ifaces_for_joint name="r_elbow_joint" dxl_id="6"/>
+      <xacro:ifaces_for_joint name="l_hip_joint" dxl_id="7"/>
+      <xacro:ifaces_for_joint name="r_hip_joint" dxl_id="8"/>
+      <xacro:ifaces_for_joint name="l_thigh_joint" dxl_id="9"/>
+      <xacro:ifaces_for_joint name="r_thigh_joint" dxl_id="10"/>
+      <xacro:ifaces_for_joint name="l_knee_joint" dxl_id="11"/>
+      <xacro:ifaces_for_joint name="r_knee_joint" dxl_id="12"/>
+      <xacro:ifaces_for_joint name="l_ankle_joint" dxl_id="13"/>
+      <xacro:ifaces_for_joint name="r_ankle_joint" dxl_id="14"/>
+      <xacro:ifaces_for_joint name="l_foot_joint" dxl_id="15"/>
+      <xacro:ifaces_for_joint name="r_foot_joint" dxl_id="16"/>
     </ros2_control>
   </xacro:macro>
 

@@ -14,22 +14,22 @@ joint_state_broadcaster:
 joint_trajectory_controller:
   ros__parameters:
     joints:
-      - Joint_01
-      - Joint_02
-      - Joint_03
-      - Joint_04
-      - Joint_05
-      - Joint_06
-      - Joint_07
-      - Joint_08
-      - Joint_09
-      - Joint_10
-      - Joint_11
-      - Joint_12
-      - Joint_13
-      - Joint_14
-      - Joint_15
-      - Joint_16
+      - l_shoulder_joint
+      - l_biceps_joint
+      - l_elbow_joint
+      - r_shoulder_joint
+      - r_biceps_joint
+      - r_elbow_joint
+      - l_hip_joint
+      - l_thigh_joint
+      - l_knee_joint
+      - l_ankle_joint
+      - l_foot_joint
+      - r_hip_joint
+      - r_thigh_joint
+      - r_knee_joint
+      - r_ankle_joint
+      - r_foot_joint
 
     command_interfaces:
       - position

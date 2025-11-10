@@ -11,13 +11,13 @@ from pathlib import Path
 def generate_launch_description():
     # Package shares
     ros_gz_sim_share = FindPackageShare('ros_gz_sim')
-    sim_pkg_share    = FindPackageShare('robotis_mini_sim')
+    vis_pkg_share    = FindPackageShare('robotis_mini_vis')
     model_pkg_share  = FindPackageShare('robotis_mini_model')
 
     # Paths
     gz_server_launch = PathJoinSubstitution([ros_gz_sim_share, 'launch', 'gz_server.launch.py'])
-    default_world = PathJoinSubstitution([sim_pkg_share, 'worlds', 'empty.world'])
-    controllers_yaml = PathJoinSubstitution([sim_pkg_share, 'config', 'controllers.yaml'])
+    default_world = PathJoinSubstitution([vis_pkg_share, 'worlds', 'empty.world'])
+    controllers_yaml = PathJoinSubstitution([vis_pkg_share, 'config', 'controllers.yaml'])
 
     # Args
     use_sim_time = DeclareLaunchArgument('use_sim_time', default_value='true')

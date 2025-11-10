@@ -6,6 +6,8 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+option(USE_DYNAMIXEL "Build with DynamixelSDK dependency" OFF)
+
 find_package(ament_cmake REQUIRED)
 
 # ----------------------------
@@ -55,30 +57,32 @@ find_package(pluginlib REQUIRED)
 # ----------------------------
 # DynamixelSDK (compiled in-tree)
 # ----------------------------
-file(GLOB_RECURSE dynamixel_sdk_files
-  "${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/src/dynamixel_sdk/*.cpp"
-)
+if(USE_DYNAMIXEL)
+  file(GLOB_RECURSE dynamixel_sdk_files
+    "${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/src/dynamixel_sdk/*.cpp"
+  )
 
-add_library(dynamixel_sdk STATIC
-  ${dynamixel_sdk_files}
-)
+  add_library(dynamixel_sdk STATIC
+    ${dynamixel_sdk_files}
+  )
 
-# -fPIC
-set_target_properties(dynamixel_sdk
-PROPERTIES
-  POSITION_INDEPENDENT_CODE ON
-)
+  # -fPIC
+  set_target_properties(dynamixel_sdk
+  PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+  )
 
-# Treat SDK headers as SYSTEM to hide their warnings
-target_include_directories(dynamixel_sdk
-  SYSTEM PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/include/dynamixel_sdk
-)
-target_compile_options(dynamixel_sdk
-  PRIVATE
-    $<$<CXX_COMPILER_ID:GNU>:-w>
-    $<$<CXX_COMPILER_ID:Clang>:-w>
-)
+  # Treat SDK headers as SYSTEM to hide their warnings
+  target_include_directories(dynamixel_sdk
+    SYSTEM PUBLIC
+      ${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/include/dynamixel_sdk
+  )
+  target_compile_options(dynamixel_sdk
+    PRIVATE
+      $<$<CXX_COMPILER_ID:GNU>:-w>
+      $<$<CXX_COMPILER_ID:Clang>:-w>
+  )
+endif()
 
 # ----------------------------
 # Hardware plugin (ros2_control SystemInterface)
@@ -93,13 +97,19 @@ target_include_directories(hardware
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/DynamixelSDK/c++/include
 )
 
+# Define flag.
+target_compile_definitions(hardware PUBLIC
+  $<$<BOOL:${USE_DYNAMIXEL}>:USE_DYNAMIXEL>)
+
 target_link_libraries(hardware
   rclcpp::rclcpp
   hardware_interface::hardware_interface
   controller_interface::controller_interface
   pluginlib::pluginlib
-  dynamixel_sdk
 )
+if(USE_DYNAMIXEL)
+  target_link_libraries(hardware dynamixel_sdk)
+endif()
 
 # Export plugin XML for controller_manager to discover
 # (First arg MUST be 'hardware_interface' per ros2_control docs)

@@ -10,9 +10,10 @@
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "hardware_interface/hardware_info.hpp"
 
-
+#ifndef USE_DYNAMIXEL
 #include "dynamixel_sdk/port_handler.h"
 #include "dynamixel_sdk/packet_handler.h"
+#endif
 
 namespace robotis_mini
 {
@@ -54,9 +55,11 @@ private:
     std::vector<double> joint_velocity_command_;
     std::vector<double> joint_effort_command_;
 
+#ifndef USE_DYNAMIXEL
     // Dynamixel SDK
     std::shared_ptr<dynamixel::PortHandler>   port_handler_;
     std::shared_ptr<dynamixel::PacketHandler> packet_handler_;
+#endif
     bool comms_ready_{false};
 
     std::string port_name_;

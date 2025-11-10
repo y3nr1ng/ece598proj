@@ -58,6 +58,7 @@ hardware::CallbackReturn hardware::on_init(const hardware_interface::HardwareCom
 hardware::CallbackReturn
 hardware::on_configure(const rclcpp_lifecycle::State & /*prev_state*/)
 {
+#ifdef USE_DYNAMIXEL
     // Initialize DynamixelSDK.
     port_handler_ =
         std::shared_ptr<dynamixel::PortHandler>(
@@ -78,18 +79,23 @@ hardware::on_configure(const rclcpp_lifecycle::State & /*prev_state*/)
         return CallbackReturn::ERROR;
     }
 
-    comms_ready_ = true;
     RCLCPP_INFO(
         this->get_logger(),
         "Configured DXL on %s @ %d baud (protocol %.1f)",
         port_name_.c_str(), baud_rate_, protocol_version_
     );
+#else
+    RCLCPP_INFO(this->get_logger(), "Using simulated hardware.");
+#endif
+
+    comms_ready_ = true;
     return CallbackReturn::SUCCESS;
 }
 
 hardware::CallbackReturn
 hardware::on_cleanup(const rclcpp_lifecycle::State & /*prev_state*/)
 {
+#ifdef USE_DYNAMIXEL
     if (port_handler_) {
         port_handler_->closePort();
     }
@@ -97,6 +103,7 @@ hardware::on_cleanup(const rclcpp_lifecycle::State & /*prev_state*/)
     port_handler_.reset();
     packet_handler_.reset();
     comms_ready_ = false;
+#endif
 
     RCLCPP_INFO(this->get_logger(), "Hardware cleaned up.");
     return CallbackReturn::SUCCESS;
@@ -173,6 +180,7 @@ hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
     (void)period;
 
     for (size_t i = 0; i < joint_names_.size(); ++i) {
+#ifdef USE_DYNAMIXEL
         uint8_t id = joint_ids_[i];
         uint32_t dxl_present_pos = 0;
         int comm_result =
@@ -189,6 +197,9 @@ hardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
             RCLCPP_ERROR(this->get_logger(), "Dynamixel read failed for ID %u", id);
             return hardware_interface::return_type::ERROR;
         }
+#else
+        joint_position_[i] = joint_position_command_[i];
+#endif
     }
     return hardware_interface::return_type::OK;
 }
@@ -204,6 +215,7 @@ hardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
     (void)period;
 
     for (size_t i = 0; i < joint_names_.size(); ++i) {
+#ifdef USE_DYNAMIXEL
         uint8_t id = joint_ids_[i];
         double cmd_rad = joint_position_command_[i];
         uint32_t dxl_goal_pos = convert_rad_to_dxl(cmd_rad);
@@ -219,6 +231,7 @@ hardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
             RCLCPP_ERROR(this->get_logger(), "Dynamixel write failed for ID %u", id);
             return hardware_interface::return_type::ERROR;
         }
+#endif
     }
     return hardware_interface::return_type::OK;
 }

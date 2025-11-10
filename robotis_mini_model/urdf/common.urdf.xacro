@@ -168,7 +168,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-B01(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-B01(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -199,7 +200,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMB-B02(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMB-B02(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -230,7 +232,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-B03(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-B03(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -261,7 +264,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-B04(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-B04(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -292,7 +296,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-B05(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-B05(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -323,7 +328,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-B06(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-B06(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -354,7 +360,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-B07(GR)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-B07(GR)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -385,7 +392,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/DMF-F01(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/DMF-F01(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -416,7 +424,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPU-5(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPU-5(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -447,7 +456,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPD-3B3(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPD-3B3(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -478,7 +488,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPD-3B5(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPD-3B5(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -509,7 +520,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPD-3B7(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPD-3B7(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -540,7 +552,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPD-4B5(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPD-4B5(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -571,7 +584,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPD-7V4(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPD-7V4(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -602,7 +616,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPL-2B2(W)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPL-2B2(W)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -633,7 +648,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/SPO-5(GR)_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/SPO-5(GR)_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>
@@ -690,7 +706,8 @@
       </inertial>
       <collision>
         <geometry>
-          <mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="${STL_SCALE}" />
+          <!--<mesh filename="package://robotis_mini_model/meshes/XL-320D_s.stl" scale="${STL_SCALE}" />-->
+          <sphere radius="0" />
         </geometry>
       </collision>
     </link>

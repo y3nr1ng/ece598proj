@@ -64,7 +64,6 @@ void kinematics::publish_end_effector_pose()
     ee_pose_pub_->publish(pose_msg);
 }
 
-// Fill Joint_01..Joint_16; Joint_09 is fixed in your URDF, keep it in the list for ordering.
 void kinematics::fill_joint_names(sensor_msgs::msg::JointState & js)
 {
     static const char* names[] = {
@@ -78,7 +77,6 @@ void kinematics::fill_joint_names(sensor_msgs::msg::JointState & js)
     js.effort.clear();
 }
 
-// ---- IK service handler ------------------------------------------------------
 void kinematics::handle_compute_ik(
     const std::shared_ptr<ComputeIk::Request> req,
     std::shared_ptr<ComputeIk::Response> res)

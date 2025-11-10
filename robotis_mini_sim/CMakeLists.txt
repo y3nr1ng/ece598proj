@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.28)
 project(robotis_mini_sim)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -11,8 +11,6 @@ install(
   DIRECTORY
     config
     launch
-    urdf
-    meshes
     worlds
   DESTINATION share/${PROJECT_NAME}
 )

@@ -10,6 +10,9 @@
       <uri>https://fuel.gazebosim.org/1.0/openrobotics/models/Sun</uri>
     </include>
 
+    <!-- Load ros2_control for any model that has <ros2_control> -->
+    <plugin name="gz_ros2_control" filename="gz-ros2-control-system" />
+
     <scene>
       <shadows>0</shadows>
       <background>0 0 0</background>

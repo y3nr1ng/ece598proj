@@ -62,11 +62,11 @@ private:
   rclcpp_action::Client<FJT>::SharedPtr fjt_client_;
   rclcpp_action::Server<ExecutePose>::SharedPtr action_server_;
 
+  std::atomic_bool names_inflight_{false};
   bool have_joints_ = false;
 
   void fetch_joints() {
-    if (have_joints_) {
-      init_timer_->cancel();
+    if (have_joints_ || names_inflight_) {
       return;
     }
 
@@ -75,24 +75,28 @@ private:
       return;
     }
 
+    names_inflight_ = true;
+
     auto req = std::make_shared<robotis_mini::srv::GetJointNames::Request>();
-    auto fut = names_client_->async_send_request(req);
-
-    if (fut.wait_for(1s) != std::future_status::ready) {
-      RCLCPP_WARN(get_logger(), "get_joint_names call failed; will retry");
-      return; // try again on next timer tick
-    }
-
-    auto resp = fut.get();
-    if (resp->names.empty()) {
-      RCLCPP_WARN(get_logger(), "get_joint_names returned empty; will retry");
-      return;
-    }
-
-    joints_ = std::move(resp->names);
-    have_joints_ = true;
-    init_timer_->cancel();
-    RCLCPP_INFO(get_logger(), "Loaded %zu joint names from kinematics", joints_.size());
+    names_client_->async_send_request(
+      req,
+      [this](rclcpp::Client<robotis_mini::srv::GetJointNames>::SharedFuture f) {
+        names_inflight_ = false;
+        try {
+          auto resp = f.get();
+          if (!resp || resp->names.empty()) {
+            RCLCPP_WARN(get_logger(), "get_joint_names returned empty; will retry");
+            return;
+          }
+          joints_ = resp->names;
+          have_joints_ = true;
+          init_timer_->cancel();
+          RCLCPP_INFO(get_logger(), "Loaded %zu joint names from kinematics", joints_.size());
+        } catch (const std::exception& e) {
+          RCLCPP_WARN(get_logger(), "get_joint_names failed: %s; will retry", e.what());
+        }
+      }
+    );
   }
 
   // --- Action callbacks ---

@@ -3,6 +3,7 @@ from launch.actions import DeclareLaunchArgument, GroupAction, TimerAction, Opaq
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node, PushRosNamespace
 from launch_ros.substitutions import FindPackageShare
+from pathlib import Path
 
 def generate_launch_description():
     # Package shares
@@ -14,7 +15,7 @@ def generate_launch_description():
 
     # Args
     ns = DeclareLaunchArgument("namespace", default_value="robotis_mini",
-                               description="ROS namespace for the Robotis MINI stack"),
+                               description="ROS namespace for the Robotis MINI stack")
     use_sim_time = DeclareLaunchArgument("use_sim_time", default_value="false",
                                          description="Use /clock from simulation")
 
@@ -27,9 +28,7 @@ def generate_launch_description():
         use_sim_time = LaunchConfiguration('use_sim_time')
         robot_description_xml = _read_urdf(context)
 
-        return GroupAction([
-            PushRosNamespace(ns),
-
+        return [GroupAction([
             Node(
                 package='robot_state_publisher',
                 executable='robot_state_publisher',
@@ -82,14 +81,14 @@ def generate_launch_description():
                         executable="spawner",
                         name="spawner_traj",
                         arguments=[
-                            "robotis_mini_controller",
+                            "joint_trajectory_controller",
                             "-c", "/controller_manager"
                         ],
                         output="screen"
                     ),
                 ]
             )
-        ])
+        ])]
 
     return LaunchDescription([
         ns,

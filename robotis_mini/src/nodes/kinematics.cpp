@@ -57,10 +57,10 @@ void kinematics::publish_end_effector_pose()
         return;
     }
 
-    // TODO: plug in FK (KDL) here. For now publish identity pose.
+    // TODO plug in FK, currently it only publish identity pose.
     geometry_msgs::msg::PoseStamped pose_msg;
     pose_msg.header.stamp = this->now();
-    pose_msg.header.frame_id = "Body"; // use your base link (URDF has "Body")
+    pose_msg.header.frame_id = "Body";
     pose_msg.pose.orientation.w = 1.0;
     ee_pose_pub_->publish(pose_msg);
 }
@@ -83,26 +83,23 @@ void kinematics::handle_compute_ik(
     const std::shared_ptr<ComputeIK::Request> req,
     std::shared_ptr<ComputeIK::Response> res)
 {
-    // positions vector holds DXL ticks for 16 joints; we’ll convert to radians
     std::vector<uint16_t> ticks(16, 512);  // neutral
     // Arms
     if (req->use_arms) {
         ik::IK_RH(req->rh_x, req->rh_y, req->rh_z, ticks);
         ik::IK_LH(req->lh_x, req->lh_y, req->lh_z, ticks);
     }
-    // Legs (note: feet IK needs base roll/pitch)
+    // Legs
     if (req->use_legs) {
         ik::IK_RF(req->rf_x, req->rf_y, req->rf_z, req->base_roll, req->base_pitch, ticks);
         ik::IK_LF(req->lf_x, req->lf_y, req->lf_z, req->base_roll, req->base_pitch, ticks);
     }
 
-    // Build JointState in radians (ROS controllers consume radians)
+    // Build JointState in radians.
     sensor_msgs::msg::JointState js;
     fill_joint_names(js);
-    // Map: your IK stores joints in 0..15 order that matches Joint_01..Joint_16 indices:
-    // positions[0] -> Joint_01, ..., positions[15] -> Joint_16 (Joint_09 is fixed).
     for (size_t i = 0; i < 16; ++i) {
-        js.position[i] = ticks_to_rad(ticks[i]); // (ticks - 512)/195.3786
+        js.position[i] = ticks_to_rad(ticks[i]);
     }
     js.header.stamp = this->now();
 

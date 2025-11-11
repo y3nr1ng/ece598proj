@@ -78,10 +78,7 @@ private:
     auto req = std::make_shared<robotis_mini::srv::GetJointNames::Request>();
     auto fut = names_client_->async_send_request(req);
 
-    auto base = this->get_node_base_interface();
-    rclcpp::executors::SingleThreadedExecutor exec;
-    exec.add_node(base);
-    if (exec.spin_until_future_complete(fut) != rclcpp::FutureReturnCode::SUCCESS) {
+    if (fut.wait_for(1s) != std::future_status::ready) {
       RCLCPP_WARN(get_logger(), "get_joint_names call failed; will retry");
       return; // try again on next timer tick
     }

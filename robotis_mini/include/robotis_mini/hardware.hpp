@@ -31,7 +31,7 @@ public:
     hardware_impl() = default;
     ~hardware_impl() override = default;
 
-    CallbackReturn on_init(const hardware_interface::HardwareInfo & params) override;
+    CallbackReturn on_init(const hardware_interface::HardwareComponentInterfaceParams & params) override;
     CallbackReturn on_configure(const rclcpp_lifecycle::State & prev_state) override;
     CallbackReturn on_cleanup  (const rclcpp_lifecycle::State & prev_state) override;
 

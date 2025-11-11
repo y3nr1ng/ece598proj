@@ -4,9 +4,11 @@
 namespace robotis_mini
 {
 
-hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::HardwareInfo & hw_info)
+hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::HardwareComponentInterfaceParams & params)
 {
-    if (hardware_interface::SystemInterface::on_init(hw_info) != CallbackReturn::SUCCESS) {
+    const auto hw_info = params.hardware_info;
+
+    if (hardware_interface::SystemInterface::on_init(params) != CallbackReturn::SUCCESS) {
         return CallbackReturn::ERROR;
     }
 

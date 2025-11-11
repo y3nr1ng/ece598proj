@@ -7,6 +7,7 @@
 #include "robotis_mini/ik.hpp"
 
 using std::placeholders::_1;
+using std::placeholders::_2;
 
 namespace robotis_mini {
 
@@ -15,22 +16,22 @@ kinematics::kinematics(const rclcpp::NodeOptions & options)
 {
     RCLCPP_INFO(this->get_logger(), "Initializing kinematics");
 
-    // sub: joint_states (optional for future FK publishing)
     joint_state_sub_ = this->create_subscription<sensor_msgs::msg::JointState>(
         "joint_states", 10, std::bind(&kinematics::joint_state_callback, this, _1));
 
-    // pub: end-effector pose (placeholder)
     ee_pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>(
-        "mini/actual_end_effector_pose", 10);
+        "robotis_mini/actual_end_effector_pose", 10);
 
-    // periodic publisher (placeholder FK)
     timer_ = this->create_wall_timer(
         publish_period_, std::bind(&kinematics::publish_end_effector_pose, this));
 
-    // srv: compute_ik
-    srv_compute_ik_ = this->create_service<ComputeIk>(
-        "mini/compute_ik",
-        std::bind(&kinematics::handle_compute_ik, this, std::placeholders::_1, std::placeholders::_2));
+    srv_compute_ik_ = this->create_service<ComputeIK>(
+        "robotis_mini/compute_ik",
+        std::bind(&kinematics::handle_compute_ik, this, _1, _2));
+
+    srv_get_joint_names_ = this->create_service<GetJointNames>(
+        "robotis_mini/get_joint_names",
+        std::bind(&kinematics::handle_get_joint_names, this, _1, _2));
 
     RCLCPP_INFO(this->get_logger(), "kinematics ready");
 }
@@ -67,9 +68,10 @@ void kinematics::publish_end_effector_pose()
 void kinematics::fill_joint_names(sensor_msgs::msg::JointState & js)
 {
     static const char* names[] = {
-        "Joint_01","Joint_02","Joint_03","Joint_04","Joint_05","Joint_06",
-        "Joint_07","Joint_08","Joint_09","Joint_10","Joint_11","Joint_12",
-        "Joint_13","Joint_14","Joint_15","Joint_16"
+        "l_shoulder_joint", "l_biceps_joint", "l_elbow_joint",
+        "r_shoulder_joint", "r_biceps_joint", "r_elbow_joint",
+        "l_hip_joint", "l_thigh_joint", "l_knee_joint", "l_ankle_joint", "l_foot_joint",
+        "r_hip_joint", "r_thigh_joint", "r_knee_joint", "r_ankle_joint", "r_foot_joint"
     };
     js.name.assign(std::begin(names), std::end(names));
     js.position.assign(16, 0.0);
@@ -78,8 +80,8 @@ void kinematics::fill_joint_names(sensor_msgs::msg::JointState & js)
 }
 
 void kinematics::handle_compute_ik(
-    const std::shared_ptr<ComputeIk::Request> req,
-    std::shared_ptr<ComputeIk::Response> res)
+    const std::shared_ptr<ComputeIK::Request> req,
+    std::shared_ptr<ComputeIK::Response> res)
 {
     // positions vector holds DXL ticks for 16 joints; we’ll convert to radians
     std::vector<uint16_t> ticks(16, 512);  // neutral
@@ -106,6 +108,16 @@ void kinematics::handle_compute_ik(
 
     res->joints = std::move(js);
     res->message = "IK computed from provided legacy model (ticks->rad converted)";
+}
+
+
+void kinematics::handle_get_joint_names(
+    const std::shared_ptr<GetJointNames::Request>,
+    std::shared_ptr<GetJointNames::Response> res)
+{
+  sensor_msgs::msg::JointState js;
+  fill_joint_names(js);
+  res->names = js.name;
 }
 
 }

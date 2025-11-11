@@ -199,6 +199,7 @@ endif()
 install(
   DIRECTORY
     config
+    launch
     plugin_description
   DESTINATION share/${PROJECT_NAME}
 )

@@ -20,17 +20,17 @@ kinematics::kinematics(const rclcpp::NodeOptions & options)
         "joint_states", 10, std::bind(&kinematics::joint_state_callback, this, _1));
 
     ee_pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>(
-        "robotis_mini/actual_end_effector_pose", 10);
+        "actual_end_effector_pose", 10);
 
     timer_ = this->create_wall_timer(
         publish_period_, std::bind(&kinematics::publish_end_effector_pose, this));
 
     srv_compute_ik_ = this->create_service<ComputeIK>(
-        "robotis_mini/compute_ik",
+        "compute_ik",
         std::bind(&kinematics::handle_compute_ik, this, _1, _2));
 
     srv_get_joint_names_ = this->create_service<GetJointNames>(
-        "robotis_mini/get_joint_names",
+        "get_joint_names",
         std::bind(&kinematics::handle_get_joint_names, this, _1, _2));
 
     RCLCPP_INFO(this->get_logger(), "kinematics ready");

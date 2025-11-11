@@ -23,6 +23,8 @@ using FJTHandle  = rclcpp_action::ClientGoalHandle<FJT>;
 
 using ComputeIK  = robotis_mini::srv::ComputeIK;
 
+using GetJointNames = robotis_mini::srv::GetJointNames;
+
 using namespace std::chrono_literals;
 
 class pose : public rclcpp::Node
@@ -31,21 +33,14 @@ public:
   pose()
   : Node("pose")
   {
-    auto names_client_ = this->create_client<robotis_mini::srv::GetJointNames>("robotis_mini/get_joint_names");
-    if (names_client_->wait_for_service(3s)) {
-      auto req = std::make_shared<robotis_mini::srv::GetJointNames::Request>();
-      auto fut = names_client_->async_send_request(req);
-      if (rclcpp::spin_until_future_complete(shared_from_this(), fut) == rclcpp::FutureReturnCode::SUCCESS) {
-        joints_ = fut.get()->names;
-      }
-    }
+    names_client_ = this->create_client<GetJointNames>("get_joint_names");
+    ik_client_ = this->create_client<ComputeIK>("compute_ik");
+    fjt_client_ = rclcpp_action::create_client<FJT>(this, "follow_joint_trajectory");
 
-    // IK service client
-    ik_client_ = this->create_client<ComputeIK>("robotis_mini/compute_ik");
-
-    // FJT client
-    fjt_action_name_ = "robotis_mini/follow_joint_trajectory";
-    fjt_client_ = rclcpp_action::create_client<FJT>(this, fjt_action_name_);
+    // One-shot timer to fetch names after the node enters the executor.
+    init_timer_ = this->create_wall_timer(
+        100ms,
+        [this]() { this->fetch_joints(); });
 
     action_server_ = rclcpp_action::create_server<ExecutePose>(
       this,
@@ -54,21 +49,54 @@ public:
       std::bind(&pose::handle_cancel, this, std::placeholders::_1),
       std::bind(&pose::handle_accept, this, std::placeholders::_1));
 
-    RCLCPP_INFO(
-      get_logger(),
-      "Ready to set pose. Action: %s  | FJT: %s  | IK: %s",
-      this->get_fully_qualified_name(), fjt_action_name_.c_str(), "mini/compute_ik"
-    );
+    RCLCPP_INFO(this->get_logger(), "Ready to set pose.");
   }
 
 private:
-  // Params / wiring
-  std::string fjt_action_name_;
   std::vector<std::string> joints_;
 
+  rclcpp::TimerBase::SharedPtr init_timer_;
+
+  rclcpp::Client<GetJointNames>::SharedPtr names_client_;
   rclcpp::Client<ComputeIK>::SharedPtr ik_client_;
   rclcpp_action::Client<FJT>::SharedPtr fjt_client_;
   rclcpp_action::Server<ExecutePose>::SharedPtr action_server_;
+
+  bool have_joints_ = false;
+
+  void fetch_joints() {
+    if (have_joints_) {
+      init_timer_->cancel();
+      return;
+    }
+
+    if (!names_client_->wait_for_service(0s)) {
+      RCLCPP_DEBUG(get_logger(), "Waiting for get_joint_names...");
+      return;
+    }
+
+    auto req = std::make_shared<robotis_mini::srv::GetJointNames::Request>();
+    auto fut = names_client_->async_send_request(req);
+
+    auto base = this->get_node_base_interface();
+    rclcpp::executors::SingleThreadedExecutor exec;
+    exec.add_node(base);
+    if (exec.spin_until_future_complete(fut) != rclcpp::FutureReturnCode::SUCCESS) {
+      RCLCPP_WARN(get_logger(), "get_joint_names call failed; will retry");
+      return; // try again on next timer tick
+    }
+
+    auto resp = fut.get();
+    if (resp->names.empty()) {
+      RCLCPP_WARN(get_logger(), "get_joint_names returned empty; will retry");
+      return;
+    }
+
+    joints_ = std::move(resp->names);
+    have_joints_ = true;
+    init_timer_->cancel();
+    RCLCPP_INFO(get_logger(), "Loaded %zu joint names from kinematics", joints_.size());
+  }
 
   // --- Action callbacks ---
   rclcpp_action::GoalResponse handle_goal(
@@ -95,8 +123,16 @@ private:
 
   void execute(const std::shared_ptr<GoalHandle> gh)
   {
+    if (!have_joints_) {
+      auto res = std::make_shared<ExecutePose::Result>();
+      res->success = false;
+      res->message = "Joints not loaded yet";
+      gh->abort(res);
+      return;
+    }
+
     const auto goal = gh->get_goal();
-    const auto self = this->shared_from_this();
+    const auto base = this->get_node_base_interface();
 
     // 1) Wait for IK + FJT
     if (!ik_client_->wait_for_service(std::chrono::seconds(3))) {
@@ -126,7 +162,7 @@ private:
     req->base_pitch = goal->base_pitch;
 
     auto fut = ik_client_->async_send_request(req);
-    if (rclcpp::spin_until_future_complete(self, fut) != rclcpp::FutureReturnCode::SUCCESS) {
+    if (rclcpp::spin_until_future_complete(base, fut) != rclcpp::FutureReturnCode::SUCCESS) {
       auto r = std::make_shared<ExecutePose::Result>();
       r->success = false;
       r->message = "IK call failed";
@@ -188,7 +224,7 @@ private:
       };
 
     auto gh_future = fjt_client_->async_send_goal(fjt_goal, send_opts);
-    if (rclcpp::spin_until_future_complete(self, gh_future) != rclcpp::FutureReturnCode::SUCCESS) {
+    if (rclcpp::spin_until_future_complete(base, gh_future) != rclcpp::FutureReturnCode::SUCCESS) {
       auto r = std::make_shared<ExecutePose::Result>();
       r->success = false;
       r->message = "Failed to send FJT goal";
@@ -203,7 +239,7 @@ private:
     }
 
     auto result_future = fjt_client_->async_get_result(fjt_gh);
-    if (rclcpp::spin_until_future_complete(self, result_future) != rclcpp::FutureReturnCode::SUCCESS) {
+    if (rclcpp::spin_until_future_complete(base, result_future) != rclcpp::FutureReturnCode::SUCCESS) {
       auto r = std::make_shared<ExecutePose::Result>();
       r->success = false;
       r->message = "Failed to get FJT result";

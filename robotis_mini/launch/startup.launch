@@ -1,0 +1,98 @@
+from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, TimerAction, OpaqueFunction
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node, PushRosNamespace
+from launch_ros.substitutions import FindPackageShare
+
+def generate_launch_description():
+    # Package shares
+    core_pkg_share   = FindPackageShare('robotis_mini')
+    model_pkg_share  = FindPackageShare('robotis_mini_model')
+
+    # Paths
+    controllers_yaml = PathJoinSubstitution([core_pkg_share, 'config', 'controllers.yaml'])
+
+    # Args
+    ns = DeclareLaunchArgument("namespace", default_value="robotis_mini",
+                               description="ROS namespace for the Robotis MINI stack"),
+    use_sim_time = DeclareLaunchArgument("use_sim_time", default_value="false",
+                                         description="Use /clock from simulation")
+
+    def _read_urdf(context):
+        urdf = PathJoinSubstitution([model_pkg_share, 'urdf', 'robotis_mini.urdf']).perform(context)
+        return Path(urdf).read_text()
+
+    def build_nodes(context, *_, **__):
+        ns = LaunchConfiguration('namespace')
+        use_sim_time = LaunchConfiguration('use_sim_time')
+        robot_description_xml = _read_urdf(context)
+
+        return GroupAction([
+            PushRosNamespace(ns),
+
+            Node(
+                package='robot_state_publisher',
+                executable='robot_state_publisher',
+                parameters=[{'use_sim_time': use_sim_time,
+                            'robot_description': robot_description_xml}],
+                output='screen'
+            ),
+            Node(
+                package='controller_manager',
+                executable='ros2_control_node',
+                parameters=[
+                    controllers_yaml,
+                    {'robot_description': robot_description_xml},
+                ],
+                output='both'
+            ),
+
+            # Services
+            Node(
+                package="robotis_mini",
+                executable="kinematics",
+                output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
+            ),
+
+            # Actions
+            Node(
+                package="robotis_mini",
+                executable="pose",
+                output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
+            ),
+
+            # Spawners
+            TimerAction(
+                period=1.0,
+                actions=[
+                    Node(
+                        package="controller_manager",
+                        executable="spawner",
+                        name="spawner_jsb",
+                        arguments=[
+                            "joint_state_broadcaster",
+                            "-c", "/controller_manager"
+                        ],
+                        output="screen"
+                    ),
+                    Node(
+                        package="controller_manager",
+                        executable="spawner",
+                        name="spawner_traj",
+                        arguments=[
+                            "robotis_mini_controller",
+                            "-c", "/controller_manager"
+                        ],
+                        output="screen"
+                    ),
+                ]
+            )
+        ])
+
+    return LaunchDescription([
+        ns,
+        use_sim_time,
+        OpaqueFunction(function=build_nodes),
+    ])

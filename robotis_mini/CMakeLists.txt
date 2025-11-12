@@ -197,6 +197,13 @@ if(USE_DYNAMIXEL)
 endif()
 
 install(
+  PROGRAMS
+    scripts/squat_loop
+  DESTINATION
+    lib/${PROJECT_NAME}
+)
+
+install(
   DIRECTORY
     config
     launch

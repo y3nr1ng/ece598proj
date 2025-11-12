@@ -26,6 +26,8 @@ using ComputeIK  = robotis_mini::srv::ComputeIK;
 using GetJointNames = robotis_mini::srv::GetJointNames;
 
 using namespace std::chrono_literals;
+using std::placeholders::_1;
+using std::placeholders::_2;
 
 class pose : public rclcpp::Node
 {
@@ -47,9 +49,9 @@ public:
     action_server_ = rclcpp_action::create_server<ExecutePose>(
       this,
       "execute_pose",
-      std::bind(&pose::handle_goal,   this, std::placeholders::_1, std::placeholders::_2),
-      std::bind(&pose::handle_cancel, this, std::placeholders::_1),
-      std::bind(&pose::handle_accept, this, std::placeholders::_1));
+      std::bind(&pose::handle_goal,   this, _1, _2),
+      std::bind(&pose::handle_cancel, this, _1),
+      std::bind(&pose::handle_accept, this, _1));
 
     RCLCPP_INFO(this->get_logger(), "Ready to set pose.");
   }
@@ -135,7 +137,6 @@ private:
     }
 
     const auto goal = gh->get_goal();
-    const auto base = this->get_node_base_interface();
 
     // 1) Wait for IK + FJT
     if (!ik_client_->wait_for_service(std::chrono::seconds(3))) {
@@ -165,7 +166,7 @@ private:
     req->base_pitch = goal->base_pitch;
 
     auto fut = ik_client_->async_send_request(req);
-    if (rclcpp::spin_until_future_complete(base, fut) != rclcpp::FutureReturnCode::SUCCESS) {
+    if (fut.wait_for(3s) != std::future_status::ready) {
       auto r = std::make_shared<ExecutePose::Result>();
       r->success = false;
       r->message = "IK call failed";
@@ -216,10 +217,11 @@ private:
                     const std::shared_ptr<const FJT::Feedback> fb)
       {
         float p = 0.0f;
-        if (!fb->desired.time_from_start.sec == 0 || fb->desired.time_from_start.nanosec != 0) {
+        const auto &ts = fb->desired.time_from_start;
+        if (!ts.sec == 0 || ts.nanosec != 0) {
           const double t =
-            rclcpp::Duration(fb->desired.time_from_start).seconds();
-          p = static_cast<float>(std::min(1.0, std::max(0.0, t / T)));
+            rclcpp::Duration(ts).seconds();
+          p = static_cast<float>(std::clamp(t / std::max(1e-9, T), 0.0, 1.0));
         }
         auto fb_ = std::make_shared<ExecutePose::Feedback>();
         fb_->progress = p;
@@ -227,7 +229,7 @@ private:
       };
 
     auto gh_future = fjt_client_->async_send_goal(fjt_goal, send_opts);
-    if (rclcpp::spin_until_future_complete(base, gh_future) != rclcpp::FutureReturnCode::SUCCESS) {
+    if (gh_future.wait_for(3s) != std::future_status::ready) {
       auto r = std::make_shared<ExecutePose::Result>();
       r->success = false;
       r->message = "Failed to send FJT goal";
@@ -242,7 +244,9 @@ private:
     }
 
     auto result_future = fjt_client_->async_get_result(fjt_gh);
-    if (rclcpp::spin_until_future_complete(base, result_future) != rclcpp::FutureReturnCode::SUCCESS) {
+    const auto wait_s = std::chrono::seconds(
+      static_cast<int>(std::max(5.0, T + 2.0)));
+    if (result_future.wait_for(wait_s) != std::future_status::ready) {
       auto r = std::make_shared<ExecutePose::Result>();
       r->success = false;
       r->message = "Failed to get FJT result";

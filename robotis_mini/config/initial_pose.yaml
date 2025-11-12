@@ -1,24 +1,10 @@
-restore_initial_pose:
-  ros__parameters:
-    controller_ns: "/joint_trajectory_controller"
+initial_pos:
 
-    joint_names:
-      - l_shoulder_joint
-      - l_biceps_joint
-      - l_elbow_joint
-      - r_shoulder_joint
-      - r_biceps_joint
-      - r_elbow_joint
-      - l_hip_joint
-      - l_thigh_joint
-      - l_knee_joint
-      - l_ankle_joint
-      - l_foot_joint
-      - r_hip_joint
-      - r_thigh_joint
-      - r_knee_joint
-      - r_ankle_joint
-      - r_foot_joint
+  # TODO port from TA's example
+
+  # self.x_RH0, self.y_RH0, self.z_RH0, self.x_LH0, self.y_LH0, self.z_LH0 = 0.0, -174.00, -12.00, 0.0, 174.0, -12.0
+        self.x_RF0, self.y_RF0, self.z_RF0, self.roll_RF0, self.pitch_RF0 = 15.0, -33.0, -196.0, 0.0, 0.0
+        self.x_LF0, self.y_LF0, self.z_LF0, self.roll_LF0, self.pitch_LF0 = 15.0, 33.0, -196.0, 0.0, 0.0
 
     initial_positions: [
       0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0

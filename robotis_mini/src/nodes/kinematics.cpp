@@ -83,28 +83,28 @@ void kinematics::handle_compute_ik(
     const std::shared_ptr<ComputeIK::Request> req,
     std::shared_ptr<ComputeIK::Response> res)
 {
-    std::vector<uint16_t> ticks(16, 512);  // neutral
+    std::vector<uint16_t> rads(16, 0);  // neutral
     // Arms
     if (req->use_arms) {
-        ik::IK_RH(req->rh_x, req->rh_y, req->rh_z, ticks);
-        ik::IK_LH(req->lh_x, req->lh_y, req->lh_z, ticks);
+        ik::IK_RH(req->rh_x, req->rh_y, req->rh_z, rads);
+        ik::IK_LH(req->lh_x, req->lh_y, req->lh_z, rads);
     }
     // Legs
     if (req->use_legs) {
-        ik::IK_RF(req->rf_x, req->rf_y, req->rf_z, req->base_roll, req->base_pitch, ticks);
-        ik::IK_LF(req->lf_x, req->lf_y, req->lf_z, req->base_roll, req->base_pitch, ticks);
+        ik::IK_RF(req->rf_x, req->rf_y, req->rf_z, req->base_roll, req->base_pitch, rads);
+        ik::IK_LF(req->lf_x, req->lf_y, req->lf_z, req->base_roll, req->base_pitch, rads);
     }
 
     // Build JointState in radians.
     sensor_msgs::msg::JointState js;
     fill_joint_names(js);
     for (size_t i = 0; i < 16; ++i) {
-        js.position[i] = ticks_to_rad(ticks[i]);
+        js.position[i] = rads[i];
     }
     js.header.stamp = this->now();
 
     res->joints = std::move(js);
-    res->message = "IK computed from provided legacy model (ticks->rad converted)";
+    res->message = "IK computed";
 }
 
 

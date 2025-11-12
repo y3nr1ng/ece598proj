@@ -20,7 +20,7 @@ def generate_launch_description():
                                          description="Use /clock from simulation")
 
     def _read_urdf(context):
-        urdf = PathJoinSubstitution([model_pkg_share, 'urdf', 'robotis_mini.urdf']).perform(context)
+        urdf = PathJoinSubstitution([model_pkg_share, 'urdf', 'robotis_mini_spherized.urdf']).perform(context)
         return Path(urdf).read_text()
 
     def build_nodes(context, *_, **__):

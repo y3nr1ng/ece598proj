@@ -35,7 +35,9 @@ public:
   {
     names_client_ = this->create_client<GetJointNames>("get_joint_names");
     ik_client_ = this->create_client<ComputeIK>("compute_ik");
-    fjt_client_ = rclcpp_action::create_client<FJT>(this, "follow_joint_trajectory");
+    fjt_client_ = rclcpp_action::create_client<FJT>(
+      this, "/joint_trajectory_controller/follow_joint_trajectory"
+    );
 
     // One-shot timer to fetch names after the node enters the executor.
     init_timer_ = this->create_wall_timer(

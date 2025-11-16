@@ -11,24 +11,24 @@ namespace robotis_mini::ik {
 inline constexpr float kPi = 3.14159265358979323846f;
 
 // arm link lengths (mm)
-inline constexpr float kLSh = 39.0f;  // origin to arm roll joint
-inline constexpr float kLA1 = 18.0f;  // shoulder bracket horizontal
-inline constexpr float kLA2 = 12.0f;  // shoulder bracket vertical
-inline constexpr float kLA3 = 45.0f;  // upper arm
-inline constexpr float kLA4 = 72.0f;  // lower arm
+inline constexpr float kLSh = 0.039f;  // origin to arm roll joint
+inline constexpr float kLA1 = 0.018f;  // shoulder bracket horizontal
+inline constexpr float kLA2 = 0.012f;  // shoulder bracket vertical
+inline constexpr float kLA3 = 0.045f;  // upper arm
+inline constexpr float kLA4 = 0.072f;  // lower arm
 
 // leg link lengths (mm)
-inline constexpr float kLBy = 24.0f;  // origin to pelvis vertical
-inline constexpr float kLBz = 72.0f;  // pelvis horizontal
-inline constexpr float kLBx = 15.0f;  // shoulder axis to leg center (sagittal)
-inline constexpr float kLL1 = 6.0f;   // pelvis roll to pitch offset
-inline constexpr float kLL2 = 45.0f;  // thigh
-inline constexpr float kLL3 = 42.0f;  // shank
-inline constexpr float kLL4 = 31.0f;  // ankle
-inline constexpr float kLFoot = 9.0f; // foot horizontal
+inline constexpr float kLBy   = 0.024f;  // origin to pelvis vertical
+inline constexpr float kLBz   = 0.072f;  // pelvis horizontal
+inline constexpr float kLBx   = 0.015f;  // shoulder axis to leg center (sagittal)
+inline constexpr float kLL1   = 0.006f;   // pelvis roll to pitch offset
+inline constexpr float kLL2   = 0.045f;  // thigh
+inline constexpr float kLL3   = 0.042f;  // shank
+inline constexpr float kLL4   = 0.031f;  // ankle
+inline constexpr float kLFoot = 0.009f; // foot horizontal
 
 // elbow reach guard (mm) — matches prior 117 clamp
-inline constexpr float kArmReachMax = 117.0f;
+inline constexpr float kArmReachMax = 0.117f;
 
 // ---------- IK: Right Hand ----------
 void IK_RH(float x, float y, float z, std::vector<float> &pos)

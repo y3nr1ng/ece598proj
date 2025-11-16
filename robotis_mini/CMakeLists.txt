@@ -199,6 +199,7 @@ endif()
 install(
   PROGRAMS
     scripts/squat_loop
+    scripts/init
   DESTINATION
     lib/${PROJECT_NAME}
 )

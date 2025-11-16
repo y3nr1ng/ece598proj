@@ -31,7 +31,7 @@ inline constexpr float kLFoot = 9.0f; // foot horizontal
 inline constexpr float kArmReachMax = 117.0f;
 
 // ---------- IK: Right Hand ----------
-void IK_RH(float x, float y, float z, std::vector<uint16_t> &pos)
+void IK_RH(float x, float y, float z, std::vector<float> &pos)
 {
   // translate user coords to shoulder frame
   const float x0 = x;
@@ -58,13 +58,13 @@ void IK_RH(float x, float y, float z, std::vector<uint16_t> &pos)
         th3 = -kPi*0.5f + (-std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c)));
   }
 
-  pos[0] = static_cast<uint16_t>(th1); // Joint_01
-  pos[2] = static_cast<uint16_t>(th3); // Joint_03
-  pos[4] = static_cast<uint16_t>(th5); // Joint_05
+  pos[0] = static_cast<float>(th1); // Joint_01
+  pos[2] = static_cast<float>(th3); // Joint_03
+  pos[4] = static_cast<float>(th5); // Joint_05
 }
 
 // ---------- IK: Left Hand ----------
-void IK_LH(float x, float y, float z, std::vector<uint16_t> &pos)
+void IK_LH(float x, float y, float z, std::vector<float> &pos)
 {
   const float x0 = x;
   const float y0 = y - (kLSh + kLA1);
@@ -89,13 +89,13 @@ void IK_LH(float x, float y, float z, std::vector<uint16_t> &pos)
         th4 = -(-kPi*0.5f + (std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c))));
   }
 
-  pos[1] = static_cast<uint16_t>(th2); // Joint_02
-  pos[3] = static_cast<uint16_t>(th4); // Joint_04
-  pos[5] = static_cast<uint16_t>(th6); // Joint_06
+  pos[1] = static_cast<float>(th2); // Joint_02
+  pos[3] = static_cast<float>(th4); // Joint_04
+  pos[5] = static_cast<float>(th6); // Joint_06
 }
 
 // ---------- IK: Right Foot (needs base roll/pitch) ----------
-void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<uint16_t> &pos)
+void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<float> &pos)
 {
   // foot position in hip frame (from original derivation)
   const float px = -kLBz - z - kLFoot*std::sin(th_r) - kLL4*std::cos(th_p)*std::cos(th_r);
@@ -117,15 +117,15 @@ void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<uint16
                                 + std::cos(th9 + th11)*std::sin(th_p)*std::sin(th_r)*std::sin(th7));
   const float th15 = -std::asin(std::sin(th_r - th7) * std::cos(th_p));
 
-  pos[6]  = static_cast<uint16_t>(th7);   // Joint_07
-  pos[8]  = static_cast<uint16_t>(th9);   // Joint_09
-  pos[10] = static_cast<uint16_t>(th11);  // Joint_11
-  pos[12] = static_cast<uint16_t>(th13);  // Joint_13
-  pos[14] = static_cast<uint16_t>(th15);  // Joint_15
+  pos[6]  = static_cast<float>(th7);   // Joint_07
+  pos[8]  = static_cast<float>(th9);   // Joint_09
+  pos[10] = static_cast<float>(th11);  // Joint_11
+  pos[12] = static_cast<float>(th13);  // Joint_13
+  pos[14] = static_cast<float>(th15);  // Joint_15
 }
 
 // ---------- IK: Left Foot (needs base roll/pitch) ----------
-void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<uint16_t> &pos)
+void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<float> &pos)
 {
   const float px =  kLFoot*std::sin(th_r) - z - kLBz - kLL4*std::cos(th_p)*std::cos(th_r);
   const float py =  y - kLBy - kLFoot*std::cos(th_r) - kLL4*std::cos(th_p)*std::sin(th_r);
@@ -146,11 +146,11 @@ void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<uint16
                                 - std::sin(th10 + th12)*std::sin(th_p)*std::sin(th_r)*std::sin(th8));
   const float th16 = -std::asin(std::sin(th_r - th8) * std::cos(th_p));
 
-  pos[7]  = static_cast<uint16_t>(th8);   // Joint_08
-  pos[9]  = static_cast<uint16_t>(th10);  // Joint_10
-  pos[11] = static_cast<uint16_t>(th12);  // Joint_12
-  pos[13] = static_cast<uint16_t>(th14);  // Joint_14
-  pos[15] = static_cast<uint16_t>(th16);  // Joint_16
+  pos[7]  = static_cast<float>(th8);   // Joint_08
+  pos[9]  = static_cast<float>(th10);  // Joint_10
+  pos[11] = static_cast<float>(th12);  // Joint_12
+  pos[13] = static_cast<float>(th14);  // Joint_14
+  pos[15] = static_cast<float>(th16);  // Joint_16
 }
 
 }

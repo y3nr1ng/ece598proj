@@ -83,7 +83,7 @@ void kinematics::handle_compute_ik(
     const std::shared_ptr<ComputeIK::Request> req,
     std::shared_ptr<ComputeIK::Response> res)
 {
-    std::vector<uint16_t> rads(16, 0);  // neutral
+    std::vector<float> rads(16, 0);  // neutral
     // Arms
     if (req->use_arms) {
         ik::IK_RH(req->rh_x, req->rh_y, req->rh_z, rads);
@@ -112,9 +112,9 @@ void kinematics::handle_get_joint_names(
     const std::shared_ptr<GetJointNames::Request>,
     std::shared_ptr<GetJointNames::Response> res)
 {
-  sensor_msgs::msg::JointState js;
-  fill_joint_names(js);
-  res->names = js.name;
+    sensor_msgs::msg::JointState js;
+    fill_joint_names(js);
+    res->names = js.name;
 }
 
 }

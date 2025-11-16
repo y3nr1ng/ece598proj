@@ -59,8 +59,8 @@ void IK_RH(float x, float y, float z, std::vector<float> &pos)
   }
 
   pos[0] = static_cast<float>(th1); // Joint_01
-  pos[2] = static_cast<float>(th3); // Joint_03
-  pos[4] = static_cast<float>(th5); // Joint_05
+  pos[1] = static_cast<float>(th3); // Joint_03
+  pos[2] = static_cast<float>(th5); // Joint_05
 }
 
 // ---------- IK: Left Hand ----------
@@ -89,8 +89,8 @@ void IK_LH(float x, float y, float z, std::vector<float> &pos)
         th4 = -(-kPi*0.5f + (std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c))));
   }
 
-  pos[1] = static_cast<float>(th2); // Joint_02
-  pos[3] = static_cast<float>(th4); // Joint_04
+  pos[3] = static_cast<float>(th2); // Joint_02
+  pos[4] = static_cast<float>(th4); // Joint_04
   pos[5] = static_cast<float>(th6); // Joint_06
 }
 
@@ -118,10 +118,10 @@ void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<float>
   const float th15 = -std::asin(std::sin(th_r - th7) * std::cos(th_p));
 
   pos[6]  = static_cast<float>(th7);   // Joint_07
-  pos[8]  = static_cast<float>(th9);   // Joint_09
-  pos[10] = static_cast<float>(th11);  // Joint_11
-  pos[12] = static_cast<float>(th13);  // Joint_13
-  pos[14] = static_cast<float>(th15);  // Joint_15
+  pos[7]  = static_cast<float>(th9);   // Joint_09
+  pos[8]  = static_cast<float>(th11);  // Joint_11
+  pos[9]  = static_cast<float>(th13);  // Joint_13
+  pos[10] = static_cast<float>(th15);  // Joint_15
 }
 
 // ---------- IK: Left Foot (needs base roll/pitch) ----------
@@ -146,10 +146,10 @@ void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<float>
                                 - std::sin(th10 + th12)*std::sin(th_p)*std::sin(th_r)*std::sin(th8));
   const float th16 = -std::asin(std::sin(th_r - th8) * std::cos(th_p));
 
-  pos[7]  = static_cast<float>(th8);   // Joint_08
-  pos[9]  = static_cast<float>(th10);  // Joint_10
-  pos[11] = static_cast<float>(th12);  // Joint_12
-  pos[13] = static_cast<float>(th14);  // Joint_14
+  pos[11] = static_cast<float>(th8);   // Joint_08
+  pos[12] = static_cast<float>(th10);  // Joint_10
+  pos[13] = static_cast<float>(th12);  // Joint_12
+  pos[14] = static_cast<float>(th14);  // Joint_14
   pos[15] = static_cast<float>(th16);  // Joint_16
 }
 

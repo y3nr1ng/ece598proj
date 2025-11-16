@@ -68,10 +68,10 @@ void kinematics::publish_end_effector_pose()
 void kinematics::fill_joint_names(sensor_msgs::msg::JointState & js)
 {
     static const char* names[] = {
-        "l_shoulder_joint", "l_biceps_joint", "l_elbow_joint",
         "r_shoulder_joint", "r_biceps_joint", "r_elbow_joint",
-        "l_hip_joint", "l_thigh_joint", "l_knee_joint", "l_ankle_joint", "l_foot_joint",
-        "r_hip_joint", "r_thigh_joint", "r_knee_joint", "r_ankle_joint", "r_foot_joint"
+        "l_shoulder_joint", "l_biceps_joint", "l_elbow_joint",
+        "r_hip_joint", "r_thigh_joint", "r_knee_joint", "r_ankle_joint", "r_foot_joint",
+        "l_hip_joint", "l_thigh_joint", "l_knee_joint", "l_ankle_joint", "l_foot_joint"
     };
     js.name.assign(std::begin(names), std::end(names));
     js.position.assign(16, 0.0);

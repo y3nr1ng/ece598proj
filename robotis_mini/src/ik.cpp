@@ -137,10 +137,10 @@ void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<float>
   const float R1 = std::sqrt(dx*dx + dy*dy + pz*pz);
   const float alpha = std::acos((kLL2*kLL2 + kLL3*kLL3 - R1*R1) / (2.0f*kLL2*kLL3));
 
-  const float th12 = -kPi + alpha;                               // knee
+  const float th12 = kPi - alpha;                               // knee
   const float R2 = std::hypot(dx, dy);
 
-  const float th10 =  (std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
+  const float th10 = -(std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
   const float th14 = -std::acos(std::cos(th10 + th12)*std::cos(th_p)
                                 - std::sin(th10 + th12)*std::cos(th_r)*std::cos(th8)*std::sin(th_p)
                                 - std::sin(th10 + th12)*std::sin(th_p)*std::sin(th_r)*std::sin(th8));

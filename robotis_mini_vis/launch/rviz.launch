@@ -11,29 +11,18 @@ from launch_ros.parameter_descriptions import ParameterValue
 def generate_launch_description():
     # Package shares
     vis_pkg_share   = FindPackageShare('robotis_mini_vis')
-    model_pkg_share = FindPackageShare('robotis_mini_model')
 
-    # Defaults: URDF + RViz config
-    default_model = PathJoinSubstitution([
-        model_pkg_share, 'urdf', 'robotis_mini_spherized.urdf'   # <-- your URDF file
-    ])
+    # Defaults
     default_rviz_config = PathJoinSubstitution([
-        vis_pkg_share, 'rviz', 'robotis_mini.rviz'
+        vis_pkg_share, 'rviz', 'empty.rviz'
     ])
 
-    # Launch args (mirroring gazebo style)
+    # Launch args
     use_sim_time_arg = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
         description='Use simulation time if true'
     )
-
-    model_arg = DeclareLaunchArgument(
-        'model',
-        default_value=default_model,
-        description='Path to robot URDF file (robot_description source)'
-    )
-
     rviz_config_arg = DeclareLaunchArgument(
         'rviz_config',
         default_value=default_rviz_config,
@@ -42,27 +31,7 @@ def generate_launch_description():
 
     # Substitutions
     use_sim_time = LaunchConfiguration('use_sim_time')
-    model = LaunchConfiguration('model')
     rviz_config = LaunchConfiguration('rviz_config')
-
-    # Load URDF text from the file given in `model`
-    # (no xacro; just cat the URDF)
-    robot_description = ParameterValue(
-        Command(['cat ', model]),
-        value_type=str,
-    )
-
-    # Nodes
-    robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        name='robot_state_publisher',
-        output='screen',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'robot_description': robot_description,
-        }]
-    )
 
     rviz2 = Node(
         package='rviz2',
@@ -77,8 +46,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         use_sim_time_arg,
-        model_arg,
         rviz_config_arg,
-        robot_state_publisher,
-        rviz2,
+        rviz2
     ])

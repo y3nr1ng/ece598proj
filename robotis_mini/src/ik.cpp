@@ -33,6 +33,7 @@ inline constexpr float kArmReachMax = 0.117f;
 // ---------- IK: Right Hand ----------
 void IK_RH(float x, float y, float z, std::vector<float> &pos)
 {
+  /*
   // translate user coords to shoulder frame
   const float x0 = x;
   const float y0 = y + (kLSh + kLA1);
@@ -52,15 +53,20 @@ void IK_RH(float x, float y, float z, std::vector<float> &pos)
 
   const float R2 = std::hypot(xr, zr);
   float th3;                                         // shoulder pitch
-  if (z > 0) {
+  if (z0 > 0) {
+        // PATCH // This is still incorrect.
         th3 = kPi*0.5f + (std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c)));
   } else {
         th3 = -kPi*0.5f + (-std::atan2(y0, R2) + std::acos((kLA3*kLA3 + R1c*R1c - kLA4*kLA4) / (2.0f*kLA3*R1c)));
   }
+  */
 
-  pos[0] = static_cast<float>(th1); // Joint_01
-  pos[1] = static_cast<float>(th3); // Joint_03
-  pos[2] = static_cast<float>(th5); // Joint_05
+  std::vector<float> posL(6);
+  IK_LH(x, -y, z, posL);
+
+  pos[0] =  posL[3]; // Joint_01
+  pos[1] =  posL[4]; // Joint_03
+  pos[2] =  posL[5]; // Joint_05
 }
 
 // ---------- IK: Left Hand ----------
@@ -70,7 +76,7 @@ void IK_LH(float x, float y, float z, std::vector<float> &pos)
   const float y0 = y - (kLSh + kLA1);
   const float z0 = z;
 
-  const float th2 =  std::atan(x0 / (z0 + 1.0e-5f)); // shoulder roll
+  const float th2 = std::atan(x0 / (z0 + 1.0e-5f)); // shoulder roll
 
   const float xr = x0 - kLA2 * std::sin(th2);
   const float zr = z0 + kLA2 * std::cos(th2);
@@ -112,7 +118,7 @@ void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<float>
   const float R2 = std::hypot(dx, dy);
 
   const float th9 = -(std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
-  // Original left ankle IK doesn't seem correct.
+  // PATCH
   //const float th13 = -std::asin(
   //  std::cos(th9 + th11)*std::cos(th_r)*std::cos(th7)*std::sin(th_p)
   //  - std::sin(th9 + th11)*std::cos(th_p)

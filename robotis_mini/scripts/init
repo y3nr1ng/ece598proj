@@ -21,8 +21,8 @@ class InitOnce(Node):
         g.use_arms = True
         g.use_legs = True
 
-        g.rh_x, g.rh_y, g.rh_z = 0.0, -0.174, -0.012
-        g.lh_x, g.lh_y, g.lh_z = 0.0,  0.174, -0.012
+        g.rh_x, g.rh_y, g.rh_z = 0.0, -0.174, 0.1
+        g.lh_x, g.lh_y, g.lh_z = 0.0,  0.174, 0.1
 
         g.rf_x, g.rf_y, g.rf_z = 0.015, -0.033, -0.196
         g.lf_x, g.lf_y, g.lf_z = 0.015,  0.033, -0.196

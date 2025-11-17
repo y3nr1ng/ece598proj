@@ -112,9 +112,15 @@ void IK_RF(float x, float y, float z, float th_r, float th_p, std::vector<float>
   const float R2 = std::hypot(dx, dy);
 
   const float th9 = -(std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
-  const float th13 = -std::asin(std::cos(th9 + th11)*std::cos(th_r)*std::cos(th7)*std::sin(th_p)
-                                - std::sin(th9 + th11)*std::cos(th_p)
-                                + std::cos(th9 + th11)*std::sin(th_p)*std::sin(th_r)*std::sin(th7));
+  // Original left ankle IK doesn't seem correct.
+  //const float th13 = -std::asin(
+  //  std::cos(th9 + th11)*std::cos(th_r)*std::cos(th7)*std::sin(th_p)
+  //  - std::sin(th9 + th11)*std::cos(th_p)
+  //  + std::cos(th9 + th11)*std::sin(th_p)*std::sin(th_r)*std::sin(th7));
+  const float th13 = -std::acos(
+      std::cos(th9 + th11)*std::cos(th_p)
+    - std::sin(th9 + th11)*std::cos(th_r)*std::cos(th7)*std::sin(th_p)
+    - std::sin(th9 + th11)*std::sin(th_p)*std::sin(th_r)*std::sin(th7));
   const float th15 = -std::asin(std::sin(th_r - th7) * std::cos(th_p));
 
   pos[6]  = static_cast<float>(th7);   // Joint_07
@@ -141,9 +147,10 @@ void IK_LF(float x, float y, float z, float th_r, float th_p, std::vector<float>
   const float R2 = std::hypot(dx, dy);
 
   const float th10 = -(std::atan2(pz, R2) + std::acos((kLL2*kLL2 + R1*R1 - kLL3*kLL3) / (2.0f*kLL2*R1)));
-  const float th14 = -std::acos(std::cos(th10 + th12)*std::cos(th_p)
-                                - std::sin(th10 + th12)*std::cos(th_r)*std::cos(th8)*std::sin(th_p)
-                                - std::sin(th10 + th12)*std::sin(th_p)*std::sin(th_r)*std::sin(th8));
+  const float th14 = -std::acos(
+    std::cos(th10 + th12)*std::cos(th_p)
+    - std::sin(th10 + th12)*std::cos(th_r)*std::cos(th8)*std::sin(th_p)
+    - std::sin(th10 + th12)*std::sin(th_p)*std::sin(th_r)*std::sin(th8));
   const float th16 = -std::asin(std::sin(th_r - th8) * std::cos(th_p));
 
   pos[11] = static_cast<float>(th8);   // Joint_08

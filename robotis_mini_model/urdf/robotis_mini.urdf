@@ -49,11 +49,8 @@
   -->
   <ros2_control name="robotis_mini" type="system">
     <hardware>
-      <plugin>robotis_mini/hardware_sim</plugin>
-      <!-- Params for real hardware. -->
-      <param name="port">/dev/ttyUSB0</param>
-      <param name="baud">1000000</param>
-      <param name="protocol">2.0</param>
+      <!--<plugin>robotis_mini/hardware_sim</plugin>-->
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
     <joint name="l_shoulder_joint">
       <command_interface name="position"/>

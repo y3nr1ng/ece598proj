@@ -24,12 +24,16 @@
   <material name="LightGrey">
     <color rgba="0.6 0.6 0.6 1.0" />
   </material>
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>
+            /home/user/ece598proj/build/robotis_mini_model/ament_cmake_index/share/robotis_mini_model/config/controllers.yaml
+          </parameters>
+    </plugin>
+  </gazebo>
   <ros2_control name="robotis_mini" type="system">
     <hardware>
-      <plugin>robotis_mini/hardware_sim</plugin>
-      <param name="port">/dev/ttyUSB0</param>
-      <param name="baud">1000000</param>
-      <param name="protocol">2.0</param>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
     <joint name="l_shoulder_joint">
       <command_interface name="position" />

@@ -14,8 +14,6 @@ def generate_launch_description():
     controllers_yaml = PathJoinSubstitution([core_pkg_share, 'config', 'controllers.yaml'])
 
     # Args
-    ns = DeclareLaunchArgument("namespace", default_value="robotis_mini",
-                               description="ROS namespace for the Robotis MINI stack")
     use_sim_time = DeclareLaunchArgument("use_sim_time", default_value="false",
                                          description="Use /clock from simulation")
 
@@ -24,7 +22,6 @@ def generate_launch_description():
         return Path(urdf).read_text()
 
     def build_nodes(context, *_, **__):
-        ns = LaunchConfiguration('namespace')
         use_sim_time = LaunchConfiguration('use_sim_time')
         robot_description_xml = _read_urdf(context)
 
@@ -36,15 +33,15 @@ def generate_launch_description():
                             'robot_description': robot_description_xml}],
                 output='screen'
             ),
-            Node(
-                package='controller_manager',
-                executable='ros2_control_node',
-                parameters=[
-                    controllers_yaml,
-                    {'robot_description': robot_description_xml},
-                ],
-                output='both'
-            ),
+            #Node(
+            #    package='controller_manager',
+            #    executable='ros2_control_node',
+            #    parameters=[
+            #        controllers_yaml,
+            #        {'robot_description': robot_description_xml},
+            #    ],
+            #    output='both'
+            #),
 
             # Services
             Node(
@@ -91,7 +88,6 @@ def generate_launch_description():
         ])]
 
     return LaunchDescription([
-        ns,
         use_sim_time,
         OpaqueFunction(function=build_nodes),
     ])

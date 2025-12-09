@@ -26,6 +26,18 @@
   </xacro:macro>
 
   <xacro:macro name="robotis_mini_ros2">
+
+    <xacro:if value="$(arg use_sim)">
+      <gazebo>
+        <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin"
+                filename="gz_ros2_control-system">
+          <parameters>
+            $(find robotis_mini_model)/config/controllers.yaml
+          </parameters>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+
     <ros2_control name="robotis_mini" type="system">
       <hardware>
         <xacro:if value="$(arg use_sim)">

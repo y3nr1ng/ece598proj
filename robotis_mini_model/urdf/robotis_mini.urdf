@@ -47,6 +47,13 @@
   <xacro:property name="MESHVOLUME_SPO5"   value="511.205475" />
   <xacro:property name="MESHVOLUME_XL320"  value="16403.394531" />
   -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>
+            /home/user/ece598proj/build/robotis_mini_model/ament_cmake_index/share/robotis_mini_model/config/controllers.yaml
+          </parameters>
+    </plugin>
+  </gazebo>
   <ros2_control name="robotis_mini" type="system">
     <hardware>
       <!--<plugin>robotis_mini/hardware_sim</plugin>-->

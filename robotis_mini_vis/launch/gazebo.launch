@@ -22,7 +22,7 @@ def generate_launch_description():
     use_sim_time = DeclareLaunchArgument('use_sim_time', default_value='true')
     world = DeclareLaunchArgument('world', default_value=default_world)
     spawn_z = DeclareLaunchArgument(
-        'spawn_z', default_value='0.186',
+        'spawn_z', default_value='0',
         description='Initial Z height for robot spawn (meters)'
     )
 

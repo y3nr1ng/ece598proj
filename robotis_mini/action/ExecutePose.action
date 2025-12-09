@@ -1,0 +1,39 @@
+# Goal: Cartesian target(s) -> use your ComputeIk.srv fields 1:1
+bool use_arms
+bool use_legs
+
+# Right hand (m)
+float32 rh_x
+float32 rh_y
+float32 rh_z
+
+# Left hand (m)
+float32 lh_x
+float32 lh_y
+float32 lh_z
+
+# Right foot (m)
+float32 rf_x
+float32 rf_y
+float32 rf_z
+
+# Left foot (m)
+float32 lf_x
+float32 lf_y
+float32 lf_z
+
+# Base orientation used by the feet IK (rad)
+float32 base_roll
+float32 base_pitch
+
+# How long the controller should take to reach it (s)
+float64 duration_sec
+
+---
+# Result
+bool success
+string message
+
+---
+# Feedback
+float32 progress   # 0..1

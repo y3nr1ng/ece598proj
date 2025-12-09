@@ -20,10 +20,11 @@ find_package(unique_identifier_msgs REQUIRED)
 find_package(action_msgs REQUIRED)
 
 set(action_files
-  action/RestoreInitialPose.action
+  action/ExecutePose.action
 )
 set(srv_files
   srv/ComputeIK.srv
+  srv/GetJointNames.srv
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
@@ -153,18 +154,18 @@ target_link_libraries(kinematics
 )
 
 # ----------------------------
-# Restore-initial-pose node (uses FollowJointTrajectory)
+# Pose node
 # ----------------------------
-add_executable(restore_initial_pose
-  src/nodes/restore_initial_pose.cpp
+add_executable(pose
+  src/nodes/pose.cpp
 )
 
-target_include_directories(restore_initial_pose
+target_include_directories(pose
   PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-target_link_libraries(restore_initial_pose
+target_link_libraries(pose
   rclcpp::rclcpp
   rclcpp_action::rclcpp_action
   control_msgs::control_msgs__rosidl_typesupport_cpp
@@ -179,7 +180,7 @@ install(
   TARGETS
     hardware_sim
     kinematics
-    restore_initial_pose
+    pose
   RUNTIME DESTINATION lib/${PROJECT_NAME}
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -196,8 +197,17 @@ if(USE_DYNAMIXEL)
 endif()
 
 install(
+  PROGRAMS
+    scripts/squat_loop
+    scripts/init
+  DESTINATION
+    lib/${PROJECT_NAME}
+)
+
+install(
   DIRECTORY
     config
+    launch
     plugin_description
   DESTINATION share/${PROJECT_NAME}
 )

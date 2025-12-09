@@ -23,3 +23,4 @@ https://gazebosim.org/docs/latest/troubleshooting/#unable-to-create-the-renderin
 Running ROS2 on macOS is still not functional.
 hit this issue https://github.com/ros-controls/gz_ros2_control/issues/604
 
+TODO use radians internally, fix ticks_to_rad using dxl_to_rad

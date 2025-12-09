@@ -31,7 +31,7 @@ public:
     hardware_impl() = default;
     ~hardware_impl() override = default;
 
-    CallbackReturn on_init(const hardware_interface::HardwareInfo & params) override;
+    CallbackReturn on_init(const hardware_interface::HardwareComponentInterfaceParams & params) override;
     CallbackReturn on_configure(const rclcpp_lifecycle::State & prev_state) override;
     CallbackReturn on_cleanup  (const rclcpp_lifecycle::State & prev_state) override;
 
@@ -70,8 +70,14 @@ private:
     int         baud_rate_{0};
     double      protocol_version_{0.0};
 
-    uint32_t convert_rad_to_dxl(double rad, double gear_ratio = 1.0) const;
-    double   convert_dxl_to_rad(uint32_t dxl_val, double gear_ratio = 1.0) const;
+    // joint angle <-> Dynamixel ticks (XL-320 family: 1024 ticks, 512 center)
+    static constexpr double ticksPerRad = 195.3786;
+    static constexpr int    tickCenter  = 512;
+    static constexpr int    tickMin     = 0;
+    static constexpr int    tickMax     = 1023;
+
+    uint32_t convert_rad_to_dxl(double rad) const;
+    double   convert_dxl_to_rad(uint32_t dxl_val) const;
 };
 
 }

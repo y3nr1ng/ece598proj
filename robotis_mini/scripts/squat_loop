@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+
+import math
+import rclpy
+from rclpy.node import Node
+from rclpy.action import ActionClient
+from robotis_mini.action import ExecutePose
+
+DEG = math.pi / 180.0
+
+class SquatLoop(Node):
+    def __init__(self):
+        super().__init__('squat_loop')
+
+        self.cli = ActionClient(self, ExecutePose, '/execute_pose')
+        self.get_logger().info('Waiting for /execute_pose...')
+        self.cli.wait_for_server()
+
+        # Feet nominal offsets.
+        self.x0 = 0.006     # [m]
+        self.yR = -0.033    # [m]
+        self.yL =  +0.033   # [m]
+        self.z0 = -0.186    # [m]
+
+        # Base pitch.
+        self.base_pitch = -2.0 * DEG
+        self.base_roll  = 0.0
+
+        # Squat amplitude.
+        self.amp = 0.040   # [m]
+
+        # Toggle between z0 and z0 + 0.040 m every 1 s (0.5 Hz)
+        self.state = 0      # 0: low (z0), 1: high (z0+amp)
+        self.step_sec = 1.0 # duration for each half-cycle
+
+        # Timer to kick off next goal when idle.
+        self.inflight = False
+        self.timer = self.create_timer(0.05, self._tick)
+
+    def _make_goal(self, z_foot: float) -> ExecutePose.Goal:
+        g = ExecutePose.Goal()
+        g.use_arms = False
+        g.use_legs = True
+
+        # Arms unused.
+        g.rh_x = g.rh_y = g.rh_z = 0.0
+        g.lh_x = g.lh_y = g.lh_z = 0.0
+
+        # Feet positions.
+        g.rf_x = self.x0; g.rf_y = self.yR; g.rf_z = z_foot
+        g.lf_x = self.x0; g.lf_y = self.yL; g.lf_z = z_foot
+
+        g.base_roll  = self.base_roll
+        g.base_pitch = self.base_pitch
+
+        g.duration_sec = float(self.step_sec)  # 1 s to next keyframe
+        return g
+
+    def _tick(self):
+        if self.inflight:
+            return
+
+        z = self.z0 + (self.amp if self.state == 1 else 0.0)
+        goal = self._make_goal(z)
+
+        self.inflight = True
+
+        def fb_cb(fb):
+            self.get_logger().debug(f'progress={fb.feedback.progress:.2f}')
+
+        fut = self.cli.send_goal_async(goal, feedback_callback=fb_cb)
+
+        def done_cb(fut_gh):
+            gh = fut_gh.result()
+            if not gh.accepted:
+                self.get_logger().warn('squat goal rejected')
+                self.inflight = False
+                return
+            res_fut = gh.get_result_async()
+            res_fut.add_done_callback(self._goal_done)
+
+        fut.add_done_callback(done_cb)
+
+    def _goal_done(self, fut_res):
+        res = fut_res.result().result
+        self.get_logger().info(f'cycle step done: success={res.success} msg="{res.message}"')
+
+        # Toggle for next half-cycle.
+        self.state ^= 1
+        self.inflight = False
+
+
+def main():
+    rclpy.init()
+    node = SquatLoop()
+    try:
+        rclpy.spin(node)
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()

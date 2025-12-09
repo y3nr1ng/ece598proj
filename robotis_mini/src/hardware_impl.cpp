@@ -4,9 +4,11 @@
 namespace robotis_mini
 {
 
-hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::HardwareInfo & hw_info)
+hardware_impl::CallbackReturn hardware_impl::on_init(const hardware_interface::HardwareComponentInterfaceParams & params)
 {
-    if (hardware_interface::SystemInterface::on_init(hw_info) != CallbackReturn::SUCCESS) {
+    const auto hw_info = params.hardware_info;
+
+    if (hardware_interface::SystemInterface::on_init(params) != CallbackReturn::SUCCESS) {
         return CallbackReturn::ERROR;
     }
 
@@ -236,18 +238,15 @@ hardware_impl::write(const rclcpp::Time & time, const rclcpp::Duration & period)
     return hardware_interface::return_type::OK;
 }
 
-uint32_t hardware_impl::convert_rad_to_dxl(double rad, double gear_ratio) const
+uint32_t hardware_impl::convert_rad_to_dxl(double rad) const
 {
-    double revolutions = rad / (2.0 * M_PI);
-    uint32_t dxl = static_cast<uint32_t>(revolutions * 4096.0 * gear_ratio);
-    return dxl;
+    const int t = static_cast<int>(hardware_impl::tickCenter + rad * hardware_impl::ticksPerRad);
+    return std::clamp(t, hardware_impl::tickMin, hardware_impl::tickMax);
 }
 
-double hardware_impl::convert_dxl_to_rad(uint32_t dxl_val, double gear_ratio) const
+double hardware_impl::convert_dxl_to_rad(uint32_t dxl_val) const
 {
-    double revolutions = dxl_val / (4096.0 * gear_ratio);
-    double rad = revolutions * (2.0 * M_PI);
-    return rad;
+    return (static_cast<int>(dxl_val) - tickCenter) / ticksPerRad;
 }
 
 }

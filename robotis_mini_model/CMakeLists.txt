@@ -15,6 +15,14 @@ xacro_add_files(
   REMAP use_sim:=true # use dynamixel or not
 )
 
+# Install spherized URDF variant if exist.
+install(
+  DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/urdf/"
+  DESTINATION "share/${PROJECT_NAME}/urdf"
+  FILES_MATCHING
+    PATTERN "*_spherized.urdf"
+)
+
 # Install meshes.
 install(DIRECTORY meshes DESTINATION share/${PROJECT_NAME})
 
